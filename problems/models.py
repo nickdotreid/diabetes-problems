@@ -25,7 +25,7 @@ class Session(models.Model):
 
     def __unicode__(self):
         return self.key
-        
+
 def session_make_key():
 	key = User.objects.make_random_password(30)  #make a random string the size of key field
 	try:
@@ -40,4 +40,17 @@ def session_create_key(sender, instance, **kwargs):
 	if not instance.key:
 		instance.key = User.objects.make_random_password(30)
 pre_save.connect(session_create_key, sender=Session)
+
+class Important(models.Model):
+    class Meta:
+        verbose_name = 'Important'
+        verbose_name_plural = 'Importants'
+
+    problem = models.ForeignKey(Problem)
+    session = models.ForeignKey(Session)
+
+    def __unicode__(self):
+        return self.problem
+    
+
     
