@@ -1,0 +1,8 @@
+<h1>Help us understand problems diabetes</h1>
+<form action="" method="POST">
+{% csrf_token %}
+{% for problem in problems %}
+	this is a problem
+{% endfor %}
+<input type="submit" />
+</form>
