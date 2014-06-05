@@ -1,3 +1,6 @@
+{% extends 'base.html' %}
+
+{% block content %}
 <h1>Help us understand problems diabetes</h1>
 <form action="" method="POST">
 {% csrf_token %}
@@ -6,3 +9,4 @@
 {% endfor %}
 <input type="submit" />
 </form>
+{% endblock content %}

@@ -1,0 +1,3 @@
+[submodule "diabetes_problems/static/bootstrap"]
+	path = diabetes_problems/static/bootstrap
+	url = https://github.com/twbs/bootstrap
