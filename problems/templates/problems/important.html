@@ -5,7 +5,14 @@
 <form action="" method="POST">
 {% csrf_token %}
 {% for problem in problems %}
-	this is a problem
+	<div class="problem">
+		{% if problem.image %}
+			<label for="problem-{{problem.id}}"><img src="{{MEDIA_URL}}{{problem.image}}" alt="" /></label>
+		{% endif %}
+		<input id="problem-{{problem.id}}" type="checkbox" name="problem-{{problem.id}}" value="True" />
+		<label for="problem-{{problem.id}}">{{problem.title}}</label>
+		
+	</div>
 {% endfor %}
 <input type="submit" />
 </form>
