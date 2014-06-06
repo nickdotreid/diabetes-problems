@@ -7,7 +7,7 @@
 {% for problem in problems %}
 	<div class="problem">
 		{% if problem.image %}
-			<label for="problem-{{problem.id}}"><img src="{{MEDIA_URL}}{{problem.image}}" alt="" /></label>
+			<label for="problem-{{problem.id}}"><img src="{% thumbnail problem.image 'small' %}" alt="" /></label>
 		{% endif %}
 		<input id="problem-{{problem.id}}" type="checkbox" name="problem-{{problem.id}}" value="True" />
 		<label for="problem-{{problem.id}}">{{problem.title}}</label>

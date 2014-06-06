@@ -96,6 +96,7 @@ STATIC_URL = "https://{bucket_name}.s3.amazonaws.com/".format(
 MEDIA_URL = "https://{bucket_name}.s3.amazonaws.com/".format(
     bucket_name = AWS_STORAGE_BUCKET_NAME,
 )
+MEDIA_CACHE_BUSTER = 'plz'
 
 # Email settings.
 
@@ -152,6 +153,7 @@ INSTALLED_APPS = (
     "django.contrib.admin",
     "south",
     "herokuapp",
+    "athumb",
     'problems',
 )
 
@@ -207,7 +209,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.media",
     "django.core.context_processors.static",
     "django.core.context_processors.tz",
-#    "django.core.context_processors.request",
+    "django.core.context_processors.request",
     "django.contrib.messages.context_processors.messages",
 )
 

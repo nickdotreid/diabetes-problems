@@ -2,9 +2,10 @@ from django.conf.urls import patterns, url, include
 from django.contrib import admin
 from django.views import generic
 
+from django.template import add_to_builtins
+add_to_builtins('athumb.templatetags.thumbnail')
 
 admin.autodiscover()
-
 
 urlpatterns = patterns("",
 
