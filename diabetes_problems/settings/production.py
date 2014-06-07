@@ -161,7 +161,7 @@ INSTALLED_APPS = (
 # Additional static file locations.
 
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, "static"),
+    os.path.join(SITE_ROOT, "static"),
 )
 
 
