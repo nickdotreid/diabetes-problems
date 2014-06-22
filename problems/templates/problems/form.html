@@ -1,11 +1,3 @@
-{% extends 'base.html' %}
-
-{% block content %}
-<h1>Help Us Understand Diabetes Problems</h1>
-<div class="section content introduction">
-	<p>We are creating a community of patients, providers, designers and developers to ease the care and management of type 1 diabetes. You can <a href="http://healthdesignby.us">find out more about who we are here.</a></p>
-	<p>The first step to solving a problem is identifying which problems need solving, which is where we want your help and input. Please select the problems from the list of problems below, and let us know which problems are the most important to you.</p>
-</div>
 <form action="" method="POST">
 {% csrf_token %}
 {% for problem in problems %}
@@ -23,4 +15,3 @@
 		</div>
 	</nav>
 </form>
-{% endblock content %}

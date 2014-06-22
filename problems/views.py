@@ -26,7 +26,7 @@ def important(request):
                 )
             imp.save()
         return HttpResponseRedirect(reverse(thanks))
-    return render_to_response('problems/important.html',{
+    return render_to_response('problems/page-first.html',{
         'problems':Problem.objects.all(),
         },context_instance=RequestContext(request))
 
