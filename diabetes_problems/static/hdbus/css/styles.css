@@ -6078,11 +6078,6 @@ button.close {
   margin: 0px 10px;
   padding: 0px;
 }
-.form-actions {
-  display: block;
-  position: relative;
-  clear: both;
-}
 .problem {
   position: relative;
   margin: 5px;
@@ -6099,6 +6094,12 @@ button.close {
   font-size: 1.5em;
   padding: 0px 10px;
   padding-left: 20px;
+}
+.nav-sticky {
+  position: fixed;
+  bottom: 0px;
+  left: 0px;
+  width: 100%;
 }
 @media screen and (min-width: 620px) {
   .container {
