@@ -251,8 +251,8 @@ th {
 }
 @font-face {
   font-family: 'Glyphicons Halflings';
-  src: url('../fonts/glyphicons-halflings-regular.eot');
-  src: url('../fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/glyphicons-halflings-regular.woff') format('woff'), url('../fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
+  src: url('../../bootstrap/fonts/glyphicons-halflings-regular.eot');
+  src: url('../../bootstrap/fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../../bootstrap/fonts/glyphicons-halflings-regular.woff') format('woff'), url('../../bootstrap/fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../../bootstrap/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
 }
 .glyphicon {
   position: relative;
@@ -6076,11 +6076,43 @@ button.close {
 .container {
   width: auto;
   margin: 0px 10px;
+  padding: 0px;
 }
-@media screen and (min-width: 980px) {
+.form-actions {
+  display: block;
+  position: relative;
+  clear: both;
+}
+.problem {
+  position: relative;
+  margin: 5px;
+}
+.problem.problem-selected {
+  background-color: #ddd;
+}
+.problem input.checkbox {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+}
+.problem .problem-title {
+  font-size: 1.5em;
+  padding: 0px 10px;
+  padding-left: 20px;
+}
+@media screen and (min-width: 620px) {
   .container {
-    width: 960px;
+    width: 600px;
     margin-left: auto;
     margin-right: auto;
+  }
+  .problem {
+    display: block;
+    float: left;
+    width: 290px;
+  }
+  .problem img {
+    width: 270px;
+    margin: 10px;
   }
 }

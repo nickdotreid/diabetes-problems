@@ -3,3 +3,14 @@
 	margin-left:auto;
 	margin-right:auto;
 }
+
+.problem{
+	@problem_width: @largeSize/2 - @spaceSize;
+	display:block;
+	float:left;
+	width: @problem_width;
+	img{
+		width:@problem_width - @spaceSize*2;
+		margin:@spaceSize;
+	}
+}

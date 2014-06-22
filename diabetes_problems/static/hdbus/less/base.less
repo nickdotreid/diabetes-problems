@@ -1,4 +1,29 @@
 .container{
     width:auto;
     margin:0px @spaceSize;
+    padding:0px;
+}
+
+.form-actions{
+	display:block;
+	position:relative;
+	clear:both;
+}
+
+.problem{
+	position:relative;
+	margin:@spaceSize/2;
+	&.problem-selected{
+		background-color:#ddd;
+	}
+	input.checkbox{
+		position:absolute;
+		top:@spaceSize/2;
+		left:@spaceSize/2;
+	}
+	.problem-title{
+		font-size:1.5em;
+		padding:0px @spaceSize;
+		padding-left:@spaceSize*2;
+	}
 }

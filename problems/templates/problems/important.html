@@ -9,15 +9,16 @@
 <form action="" method="POST">
 {% csrf_token %}
 {% for problem in problems %}
-	<div class="problem">
+	<div class="problem {% if forloop.counter|divisibleby:"2" %}problem-even{% endif %} {% if forloop.counter|divisibleby:"3" %}problem-third{% endif %}">
+		<input class="checkbox" id="problem-{{problem.id}}" type="checkbox" name="problem-{{problem.id}}" value="True" />
+		<label class="title problem-title" for="problem-{{problem.id}}">{{problem.title}}</label>
 		{% if problem.image %}
 			<label for="problem-{{problem.id}}"><img src="{% thumbnail problem.image 'small' %}" alt="" /></label>
 		{% endif %}
-		<input id="problem-{{problem.id}}" type="checkbox" name="problem-{{problem.id}}" value="True" />
-		<label for="problem-{{problem.id}}">{{problem.title}}</label>
-		
 	</div>
 {% endfor %}
-<input type="submit" />
+<div class="form-actions">
+	<input type="submit" />
+</div>
 </form>
 {% endblock content %}
