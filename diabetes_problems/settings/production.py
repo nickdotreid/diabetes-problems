@@ -189,6 +189,8 @@ MESSAGE_STORAGE = "django.contrib.messages.storage.cookie.CookieStorage"
 
 SITE_ID = 1
 
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
+
 
 # Absolute path to the directory where templates are stored.
 
