@@ -1,0 +1,1 @@
+$(document).ready(function(){$("form").delegate(".problem input","click",function(){this.checked?$(this).parents(".problem").addClass("problem-selected"):$(this).parents(".problem").removeClass("problem-selected")})});
