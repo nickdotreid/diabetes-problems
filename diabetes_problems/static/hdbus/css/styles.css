@@ -6096,6 +6096,11 @@ button.close {
   padding: 0px 10px;
   padding-left: 20px;
 }
+.problem img {
+  display: block;
+  width: 95%;
+  margin: 0px auto;
+}
 .nav-sticky {
   position: fixed;
   bottom: 0px;
