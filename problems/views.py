@@ -10,12 +10,15 @@ from django import forms
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 
-def important(request):
+def important(request, session_key=False):
+    if session_key:
+        session = Session.objects.get_or_create(key=session_key)
+    else:
+        session = Session()
+        session.save()
     if request.POST:
         selected_problems = []
         # check for existing session
-        session = Session()
-        session.save()
         for problem in [x for x in request.POST if 'problem' in x ]:
             try:
                 pid = problem.split('-')[1]
@@ -29,7 +32,7 @@ def important(request):
                 session=session,
                 )
             imp.save()
-        return HttpResponseRedirect(reverse(thanks))
+        return HttpResponseRedirect(reverse(thanks, kwargs={ 'session_key':session.key }))
     return render_to_response('problems/page-first.html',{
         'problems':Problem.objects.all(),
         },context_instance=RequestContext(request))
@@ -50,15 +53,17 @@ class SurveyForm(forms.Form):
         label = 'Enter your birth year',
         help_text= 'Enter the year in YYYY format',
         )
-    def __init__(self, *args, **kwargs):
+    def __init__(self, session_key=False, *args, **kwargs):
         super(SurveyForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_method = 'post'
-        self.helper.form_action = reverse(thanks)
+        self.helper.form_action = reverse(thanks, kwargs={'session_key':session_key})
         self.helper.add_input(Submit('submit', 'Submit'))
 
     def clean(self):
         cleaned_data = super(SurveyForm, self).clean()
+        if 'birth_year' not in cleaned_data:
+            return cleaned_data
         birth_year = cleaned_data['birth_year']
         if len(birth_year) != 4:
             self._errors['birth_year'] = self.error_class(['Please enter only 4 digits'])
@@ -70,10 +75,12 @@ class SurveyForm(forms.Form):
             del cleaned_data['birth_year']
         return cleaned_data
 
-def thanks(request):
-    survey_form = SurveyForm()
+def thanks(request, session_key=False):
+    if not session_key:
+        return HttpResponseRedirect(reverse(important))
+    survey_form = SurveyForm(session_key = session_key)
     if request.POST:
-        survey_form = SurveyForm(request.POST)
+        survey_form = SurveyForm(session_key, request.POST)
         if survey_form.is_valid():
             survey = Survey()
             survey.birth_year = survey_form.cleaned_data['birth_year']
