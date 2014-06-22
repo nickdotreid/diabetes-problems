@@ -48,7 +48,7 @@ class SurveyForm(forms.Form):
         )
     birth_year = forms.CharField(
         label = 'Enter your birth year',
-        help_text= 'Enter the date in YYYY format',
+        help_text= 'Enter the year in YYYY format',
         )
     def __init__(self, *args, **kwargs):
         super(SurveyForm, self).__init__(*args, **kwargs)
@@ -56,7 +56,19 @@ class SurveyForm(forms.Form):
         self.helper.form_method = 'post'
         self.helper.form_action = reverse(thanks)
         self.helper.add_input(Submit('submit', 'Submit'))
-    
+
+    def clean(self):
+        cleaned_data = super(SurveyForm, self).clean()
+        birth_year = cleaned_data['birth_year']
+        if len(birth_year) != 4:
+            self._errors['birth_year'] = self.error_class(['Please enter only 4 digits'])
+            del cleaned_data['birth_year']
+        try:
+            birth_year = int(birth_year)
+        except:
+            self._errors['birth_year'] = self.error_class(['Please enter only numbers'])
+            del cleaned_data['birth_year']
+        return cleaned_data
 
 def thanks(request):
     survey_form = SurveyForm()
