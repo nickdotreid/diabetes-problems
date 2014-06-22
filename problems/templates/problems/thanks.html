@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 
+{% load crispy_forms_tags %}
+
 {% block content %}
 	<h1>Thanks</h1>
 	<p>Thank you very much!</p>
+	{% crispy form %}
 {% endblock content %}
