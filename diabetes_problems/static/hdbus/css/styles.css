@@ -6091,6 +6091,7 @@ button.close {
   left: 5px;
 }
 .problem .problem-title {
+  display: block;
   font-size: 1.5em;
   padding: 0px 10px;
   padding-left: 20px;

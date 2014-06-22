@@ -7,7 +7,7 @@ $(document).ready(function(){
 		}
 	});
 
-	$('.form-actions .container').prepend('<div class="selected-count"></div>');
+	$('.form-actions .container').prepend('<div class="selected-count navbar-text pull-left"></div>');
 	var selected_count_update = function(){
 		var selected = $('form .problem input:checked').length;
 		var total =  $('form .problem').length;
