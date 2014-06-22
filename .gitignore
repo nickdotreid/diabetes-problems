@@ -9,6 +9,7 @@ env/
 .bzr
 .bzrignore
 Thumbs.db
+*.db
 /dist
 /build
 /MANIFEST
