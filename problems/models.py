@@ -63,6 +63,22 @@ class Important(models.Model):
 
     def __unicode__(self):
         return self.problem
+
+class PersonType(models.Model):
+    name = models.CharField(unique=True, max_length=50, default="")
+
+    def __unicode__(self):
+        return self.name
+    
+
+class Survey(models.Model):
+    session = models.ForeignKey(Session, null=True, blank=True)
+    person_types = models.ManyToManyField(PersonType)
+    birth_year = models.IntegerField(blank=True, null=True)
+
+    def __unicode__(self):
+        return ",".join([ x.name for x in self.person_type.all()])
+    
     
 
     
