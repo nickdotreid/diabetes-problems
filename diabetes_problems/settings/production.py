@@ -153,6 +153,7 @@ INSTALLED_APPS = (
     "django.contrib.admin",
     "south",
     "herokuapp",
+    "crispy_forms",
     "athumb",
     'problems',
 )
