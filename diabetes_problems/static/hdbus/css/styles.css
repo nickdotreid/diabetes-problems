@@ -6115,4 +6115,7 @@ button.close {
     width: 270px;
     margin: 10px;
   }
+  .problem-odd {
+    clear: left;
+  }
 }
