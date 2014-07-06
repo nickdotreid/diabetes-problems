@@ -67,12 +67,11 @@ class SurveyForm(forms.Form):
         )
     def __init__(self, data=None, session=None, *args, **kwargs):
         if data:
-            super(SurveyForm, data, *args, **kwargs)
+            super(SurveyForm, self).__init__(data, *args, **kwargs)
         else:
-            super(SurveyForm, *args, **kwargs)
+            super(SurveyForm, self).__init__(*args, **kwargs)
         if session:
             self.session = session
-        super(SurveyForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_method = 'post'
         self.helper.form_action = reverse(survey)
@@ -98,21 +97,18 @@ class EmailForm(forms.Form):
 
     def __init__(self, data=None, session=None, *args, **kwargs):
         if data:
-            super(EmailForm, data, *args, **kwargs)
+            super(EmailForm, self).__init__(data, *args, **kwargs)
         else:
-            super(EmailForm, *args, **kwargs)
+            super(EmailForm, self).__init__(*args, **kwargs)
         if session:
             self.session = session
-        super(EmailForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_method = 'post'
         self.helper.form_action = reverse(email)
 
-        if self.session.user.email:
+        if self.session and self.session.user:
             self.helper.layout = Layout(
                 HTML("<p>Thanks for giving us your email. You should recieve an email from us shortly.</p>"),
-                'email',
-                Submit('submit', 'Update')
                 )
         else:
             self.helper.layout = Layout(
@@ -157,9 +153,9 @@ def email(request):
     if 'session_key' not in request.session:
         return HttpResponseRedirect(reverse(important))
     session, created = Session.objects.get_or_create(key=request.session['session_key'])
-    form = EmailForm()
+    form = EmailForm(session = session)
     if request.POST:
-        form = EmailForm(request.POST)
+        form = EmailForm(request.POST, session = session)
         if form.is_valid():
             user, created = User.objects.get_or_create(username=form.cleaned_data['email'], email=form.cleaned_data['email'])
             session.user = user
@@ -197,5 +193,23 @@ def add(request):
             return HttpResponseRedirect(reverse(thanks))
     return render_to_response('problems/add.html',{
             'form':form,
-            },context_instance=RequestContext(request))    
+            },context_instance=RequestContext(request))
+
+def start(request, session_key=False):
+    if session_key:
+        try:
+            session = Session.objects.get(key = session_key)
+            messages.add(request, messages.SUCCESS,'You session has been started')
+            request.session['session_key'] = session_key
+        except:
+            messages.add(request, messages.ERROR,'Your session doesn\'t exist')
+    return HttpResponseRedirect(reverse(thanks))
+
+def end(request):
+    try:
+        del request.session['session_key']
+        messages.add(request,messages.SUCCESS,'Your session has been ended.')
+    except:
+        pass
+    return HttpResponseRedirect(reverse(thanks))
 
