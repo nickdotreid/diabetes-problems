@@ -9,7 +9,7 @@ from problems.models import Problem, Session, Important, PersonType, Survey, Sug
 
 from django import forms
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Submit
+from crispy_forms.layout import Layout, Div, HTML, Submit
 
 from django.contrib import messages
 
@@ -48,6 +48,7 @@ def important(request):
         'problems':Problem.objects.all(),
         },context_instance=RequestContext(request))
 
+
 class SurveyForm(forms.Form):
     person_types = forms.MultipleChoiceField(
         label = 'Check every term that best descibe you',
@@ -64,7 +65,13 @@ class SurveyForm(forms.Form):
         label = 'Enter your birth year',
         help_text= 'Enter the year in YYYY format',
         )
-    def __init__(self, *args, **kwargs):
+    def __init__(self, data=None, session=None, *args, **kwargs):
+        if data:
+            super(SurveyForm, data, *args, **kwargs)
+        else:
+            super(SurveyForm, *args, **kwargs)
+        if session:
+            self.session = session
         super(SurveyForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_method = 'post'
@@ -89,18 +96,38 @@ class SurveyForm(forms.Form):
 class EmailForm(forms.Form):
     email = forms.CharField(required=True, widget=forms.EmailInput)
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, data=None, session=None, *args, **kwargs):
+        if data:
+            super(EmailForm, data, *args, **kwargs)
+        else:
+            super(EmailForm, *args, **kwargs)
+        if session:
+            self.session = session
         super(EmailForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_method = 'post'
         self.helper.form_action = reverse(email)
-        self.helper.add_input(Submit('submit', 'Submit'))
+
+        if self.session.user.email:
+            self.helper.layout = Layout(
+                HTML("<p>Thanks for giving us your email. You should recieve an email from us shortly.</p>"),
+                'email',
+                Submit('submit', 'Update')
+                )
+        else:
+            self.helper.layout = Layout(
+                'email',
+                Submit('submit','Add your email')
+                )
+
 
 def thanks(request):
     if 'session_key' not in request.session:
         return important(request)
-    survey_form = SurveyForm()
-    email_form = EmailForm()
+    session, created = Session.objects.get_or_create(key=request.session['session_key'])
+    
+    survey_form = SurveyForm(session=session)
+    email_form = EmailForm(session=session)
 
     return render_to_response('problems/thanks.html',{
         'form':survey_form,
