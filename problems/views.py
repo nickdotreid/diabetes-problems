@@ -10,6 +10,8 @@ from django import forms
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 
+from django.contrib import messages
+
 def important(request, session_key=False):
     if session_key:
         session = Session.objects.get_or_create(key=session_key)
@@ -26,13 +28,15 @@ def important(request, session_key=False):
                 selected_problems.append(prob)
             except:
                 continue
-        for problem in selected_problems:
-            imp = Important(
-                problem=problem,
-                session=session,
-                )
-            imp.save()
-        return HttpResponseRedirect(reverse(thanks, kwargs={ 'session_key':session.key }))
+        if len(selected_problems) >= 1 or 'skip' in request.POST:
+            for problem in selected_problems:
+                imp = Important(
+                    problem=problem,
+                    session=session,
+                    )
+                imp.save()
+            return HttpResponseRedirect(reverse(thanks, kwargs={ 'session_key':session.key }))
+        messages.add_message(request, messages.ERROR, 'Either skip this message, or select a problem.')
     return render_to_response('problems/page-first.html',{
         'problems':Problem.objects.all(),
         },context_instance=RequestContext(request))
