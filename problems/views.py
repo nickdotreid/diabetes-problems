@@ -13,6 +13,8 @@ from crispy_forms.layout import Layout, Div, HTML, Submit
 
 from django.contrib import messages
 
+from django.core.mail import send_mail
+
 def important(request):
     session = False
     if 'session_key' in request.session:
@@ -161,6 +163,15 @@ def email(request):
             session.user = user
             session.save()
             messages.add_message(request,messages.SUCCESS,'Added your email address %s.' % (user.email))
+            send_mail(
+                'Your diabetes problems account',
+                'You can continue your session at anytime by visiting %s' % (
+                    request.build_absolute_uri(reverse(start, kwargs={'session_key':session.key})),
+                    ),
+                'no-reply@healthdesignby.us',
+                [user.email],
+                fail_silently=True
+                )
             return HttpResponseRedirect(reverse(thanks))
     return render_to_response('problems/form.html',{
         'form':form,
