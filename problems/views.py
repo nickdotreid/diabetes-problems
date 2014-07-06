@@ -121,6 +121,7 @@ def survey(request):
             for t in form.cleaned_data['person_types']:
                 ty, created = PersonType.objects.get_or_create(name=t)
                 survey.person_types.add(ty)
+            return HttpResponseRedirect(reverse(thanks))
     return render_to_response('problems/form.html',{
         'form':form,
         },context_instance=RequestContext(request))
