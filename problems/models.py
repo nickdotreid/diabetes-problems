@@ -78,6 +78,22 @@ class Survey(models.Model):
 
     def __unicode__(self):
         return ",".join([ x.name for x in self.person_type.all()])
+
+class Suggestion(models.Model):
+    class Meta:
+        verbose_name = 'Suggestion'
+        verbose_name_plural = 'Suggestions'
+
+    session = models.ForeignKey(Session)
+    submitted = models.DateTimeField(auto_now=True, auto_now_add=True)
+    description = models.CharField(max_length=500)
+
+    problems = models.ManyToManyField(Problem)
+
+
+    def __unicode__(self):
+        return self.description
+    
     
     
 

@@ -1,8 +1,9 @@
 from django.conf.urls import patterns, include, url
 
 urlpatterns = patterns('problems.views',
-	url(r'^(?P<session_key>\w+)/problems','important'),
-	url(r'^(?P<session_key>\w+)/email','email'),
-	url(r'^(?P<session_key>\w+)','thanks'),
-	url(r'^','important'),
+	url(r'^problems','important'),
+	url(r'^add','add'),
+	url(r'^survey','survey'),
+	url(r'^email','email'),
+	url(r'^','thanks'),
 )
