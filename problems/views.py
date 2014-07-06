@@ -4,6 +4,7 @@ from django.core.urlresolvers import reverse
 
 from django.template import RequestContext
 
+from django.contrib.auth.models import User
 from problems.models import Problem, Session, Important, PersonType, Survey
 
 from django import forms
@@ -79,10 +80,24 @@ class SurveyForm(forms.Form):
             del cleaned_data['birth_year']
         return cleaned_data
 
+class EmailForm(forms.Form):
+    email = forms.CharField(required=True, widget=forms.EmailInput)
+
+    def __init__(self, data=False, session_key=False, *args, **kwargs):
+        if data:
+            super(EmailForm, self).__init__(data, *args, **kwargs)
+        else:  
+            super(EmailForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_method = 'post'
+        self.helper.form_action = reverse(email, kwargs={'session_key':session_key})
+        self.helper.add_input(Submit('submit', 'Submit'))
+
 def thanks(request, session_key=False):
     if not session_key:
         return HttpResponseRedirect(reverse(important))
     survey_form = SurveyForm(session_key = session_key)
+    email_form = EmailForm(session_key = session_key)
     if request.POST:
         survey_form = SurveyForm(session_key, request.POST)
         if survey_form.is_valid():
@@ -95,4 +110,20 @@ def thanks(request, session_key=False):
 
     return render_to_response('problems/thanks.html',{
         'form':survey_form,
+        'email_form':email_form,
         },context_instance=RequestContext(request))
+
+def email(request, session_key=False):
+    if not session_key:
+        return HttpResponseRedirect(reverse(important))
+    session, created = Session.objects.get_or_create(key=session_key)
+    form = EmailForm()
+    if request.POST:
+        form = EmailForm(request.POST)
+        if form.is_valid():
+            user, created = User.objects.get_or_create(username=form.cleaned_data['email'], email=form.cleaned_data['email'])
+            session.user = user
+            session.save()
+            messages.add_message(request,messages.SUCCESS,'Added your email address %s.' % (user.email))
+            return HttpResponseRedirect(reverse(thanks, kwargs={'session_key':session_key}))
+    return HttpResponseRedirect(reverse(thanks, kwargs={'session_key':session_key}))
