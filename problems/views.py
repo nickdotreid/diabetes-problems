@@ -98,6 +98,17 @@ def thanks(request, session_key=False):
         return HttpResponseRedirect(reverse(important))
     survey_form = SurveyForm(session_key = session_key)
     email_form = EmailForm(session_key = session_key)
+
+    return render_to_response('problems/thanks.html',{
+        'form':survey_form,
+        'email_form':email_form,
+        },context_instance=RequestContext(request))
+
+def survey(request, session_key=False):
+    if not session_key:
+        return HttpResponseRedirect(reverse(important))
+    session, created = Session.objects.get_or_create(key=session_key)
+    survey_form = SurveyForm(session_key = session_key)
     if request.POST:
         survey_form = SurveyForm(session_key, request.POST)
         if survey_form.is_valid():
@@ -107,10 +118,8 @@ def thanks(request, session_key=False):
             for t in survey_form.cleaned_data['person_types']:
                 ty, created = PersonType.objects.get_or_create(name=t)
                 survey.person_types.add(ty)
-
     return render_to_response('problems/thanks.html',{
         'form':survey_form,
-        'email_form':email_form,
         },context_instance=RequestContext(request))
 
 def email(request, session_key=False):
