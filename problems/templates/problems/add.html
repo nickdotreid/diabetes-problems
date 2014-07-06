@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+	<h1>Tell us about a problem associated with type 1 diabetes</h1>
+	<p>We are still in the process of creating a list of problems that have to do with type 1 diabetes. If you have a problem, or know of a problem, that affects patients, or care givers, of type 1 diabetics, please suggest it here so we can include it on our website.</p>
+	<p>Your suggestion won't "go live" immedately, but we can tell you when it does.</p>
+	{% crispy form %}
+{% endblock content %}
