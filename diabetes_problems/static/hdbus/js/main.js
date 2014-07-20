@@ -17,4 +17,17 @@ $(document).ready(function(){
 	$('form').delegate('.problem input','click',selected_count_update);
 	selected_count_update();
 
+	$(".sortable").each(function(){
+		var list = $(this);
+		var reposition = function(){
+			$('input.position',list).each(function(index){
+				$(this).val(index+1);
+			});
+		}
+		list.sortable();
+		list.on('sortupdate',function(event, ui){
+			reposition();
+		});
+	});
+
 });

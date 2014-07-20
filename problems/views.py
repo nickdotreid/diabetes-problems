@@ -41,7 +41,7 @@ def important(request):
                     session=session,
                     )
                 imp.save()
-            return HttpResponseRedirect(reverse(thanks))
+            return HttpResponseRedirect(reverse(order))
         messages.add_message(request, messages.ERROR, 'Either skip this message, or select a problem.')
     if session:
         # load problems from last session
@@ -49,6 +49,18 @@ def important(request):
     return render_to_response('problems/page-first.html',{
         'problems':Problem.objects.all(),
         },context_instance=RequestContext(request))
+
+def order(request):
+    try:
+        session = Session.objects.get(key=request.session['session_key'])
+    except:
+        HttpResponseRedirect(reverse(important))
+    if request.POST:
+        return HttpResponseRedirect(reverse(thanks))
+    return render_to_response('problems/order.html',{
+        'problems':session.problems(),
+        }, context_instance=RequestContext(request))
+
 
 
 class SurveyForm(forms.Form):

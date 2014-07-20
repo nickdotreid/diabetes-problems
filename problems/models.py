@@ -35,6 +35,12 @@ class Session(models.Model):
     key = models.CharField( unique=True, max_length=30)
     user = models.ForeignKey(User, blank=True, null=True)
 
+    def problems(self):
+        try:
+            return Problem.objects.filter(important__session=self).all()
+        except:
+            return []
+
     def __unicode__(self):
         return self.key
 

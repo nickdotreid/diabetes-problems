@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<form action="" method="post">
+	{% csrf_token %}
+	<fieldset>
+		<legend>Thanks for telling us which issues are important to you. The second step is to place these issues in order from 1 to {{problems|length}}.</legend>
+		<ul class="problems sortable">
+		{% for problem in problems  %}
+			<li>
+				<label for="problem-{{problem.id}}">{{problem.title}}<span class="hidden"> position</span></label>
+				<input id="problem-{{problem.id}}" type="text" class="position" value="{{forloop.counter}}" />
+			</li>	
+		{% endfor %}
+		</ul>
+	</fieldset>
+	<nav class="navbar navbar-default navbar-fixed-bottom form-actions">
+		<div class="container">
+			<input class="navbar-btn btn btn-default pull-right" type="submit" name="selected" value="Next" />
+			<input class="navbar-btn btn pull-right" type="submit" name="skip" value="No thanks!" />
+		</div>
+	</nav>
+</form>
+{% endblock content %}

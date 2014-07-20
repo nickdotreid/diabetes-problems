@@ -1,6 +1,7 @@
 from django.conf.urls import patterns, include, url
 
 urlpatterns = patterns('problems.views',
+	url(r'^order','order'),
 	url(r'^problems','important'),
 	url(r'^add','add'),
 	url(r'^survey','survey'),
