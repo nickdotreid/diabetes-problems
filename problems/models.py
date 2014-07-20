@@ -41,6 +41,16 @@ class Session(models.Model):
         except:
             return []
 
+    def email_add(self, email):
+        try:
+            user, created = User.objects.get_or_create(username=email, email=email)
+            self.user = user
+            self.save()
+        except:
+            return False
+        return True
+
+
     def __unicode__(self):
         if self.user and self.user.email:
             return "%s: %s" % (self.user.email, self.key)

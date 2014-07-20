@@ -56,7 +56,7 @@ def order(request):
     except:
         return HttpResponseRedirect(reverse(important))
     if len(session.problems()) <= 1:
-        return HttpResponseRedirect(reverse(thanks))
+        return HttpResponseRedirect(reverse(suggestion))
     if request.POST:
         for problem in [x for x in request.POST if 'problem' in x ]:
             try:
@@ -69,11 +69,65 @@ def order(request):
                 imp.save()
             except:
                 pass
-        return HttpResponseRedirect(reverse(thanks))
+        return HttpResponseRedirect(reverse(suggestion))
     return render_to_response('problems/order.html',{
         'problems':session.problems(),
         }, context_instance=RequestContext(request))
 
+class SuggestionForm(forms.Form):
+    description = forms.CharField(
+        label="Describe your issue",
+        help_text='Tell us about the context about the issue. When does the issues happen? Who is involved?',
+        required=True,
+        widget = forms.Textarea,
+        )
+    email = forms.CharField(
+        label="Add your email address so we can clarify anything we don't understand in your issue (Optional)",
+        required=False,
+        widget=forms.EmailInput,
+        )
+
+    def __init__(self, *args, **kwargs):
+        super(SuggestionForm,self).__init__(*args,**kwargs)
+        self.helper = FormHelper()
+        self.helper.form_method = 'post'
+        self.helper.form_action = reverse(suggestion)
+
+        self.helper.layout = Layout(
+            'description',
+            'email',
+            HTML("""
+                    <nav class="navbar navbar-default navbar-fixed-bottom form-actions">
+                        <div class="container">
+                            <input class="navbar-btn btn btn-default pull-right" type="submit" name="selected" value="Add Your Suggestion" />
+                            <input class="navbar-btn btn pull-right" type="submit" name="skip" value="Skip" />
+                        </div>
+                    </nav>
+                """)
+            )
+
+
+def suggestion(request):
+    try:
+        session = Session.objects.get(key=request.session['session_key'])
+    except:
+        return HttpResponseRedirect(reverse(important))
+    form = SuggestionForm()
+    if request.POST:
+        form = SuggestionForm(request.POST)
+        if form.is_valid():
+            suggestion = Suggestion(
+                session = session,
+                description = form.cleaned_data['description']
+                )
+            suggestion.save()
+            if 'email' in form.cleaned_data['email']:
+                session.email_add(form.cleaned_data['email'])
+            messages.add_message(request, messages.SUCCESS,'Your suggestion has been saved. We will notify you when it is made public.')
+            return HttpResponseRedirect(reverse(thanks))
+    return render_to_response('problems/suggestions.html',{
+        'form':form,
+        }, context_instance=RequestContext(request))
 
 
 class SurveyForm(forms.Form):
