@@ -54,7 +54,9 @@ def order(request):
     try:
         session = Session.objects.get(key=request.session['session_key'])
     except:
-        HttpResponseRedirect(reverse(important))
+        return HttpResponseRedirect(reverse(important))
+    if len(session.problems()) <= 1:
+        return HttpResponseRedirect(reverse(thanks))
     if request.POST:
         for problem in [x for x in request.POST if 'problem' in x ]:
             try:

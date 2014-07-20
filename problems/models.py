@@ -42,6 +42,8 @@ class Session(models.Model):
             return []
 
     def __unicode__(self):
+        if self.user and self.user.email:
+            return "%s: %s" % (self.user.email, self.key)
         return self.key
 
 def session_make_key():
@@ -70,7 +72,7 @@ class Important(models.Model):
     ranking = models.IntegerField(blank=True, null=True, default=0)
 
     def __unicode__(self):
-        return self.problem
+        return unicode(self.session) + unicode(self.problem)
 
 class PersonType(models.Model):
     name = models.CharField(unique=True, max_length=50, default="")

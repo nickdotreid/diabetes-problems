@@ -10,7 +10,7 @@
 		{% for problem in problems  %}
 			<li>
 				<label for="problem-{{problem.id}}">{{problem.title}}<span class="hidden"> position</span></label>
-				<input id="problem-{{problem.id}}" type="text" class="position" value="{{forloop.counter}}" />
+				<input id="problem-{{problem.id}}" name="problem-{{problem.id}}" type="text" class="position" value="{{forloop.counter}}" />
 			</li>	
 		{% endfor %}
 		</ul>
