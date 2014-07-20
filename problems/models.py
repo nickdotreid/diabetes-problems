@@ -67,6 +67,8 @@ class Important(models.Model):
     problem = models.ForeignKey(Problem)
     session = models.ForeignKey(Session)
 
+    ranking = models.IntegerField(blank=True, null=True, default=0)
+
     def __unicode__(self):
         return self.problem
 

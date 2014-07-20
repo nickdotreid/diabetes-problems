@@ -56,6 +56,17 @@ def order(request):
     except:
         HttpResponseRedirect(reverse(important))
     if request.POST:
+        for problem in [x for x in request.POST if 'problem' in x ]:
+            try:
+                pid = problem.split('-')[1]
+                imp = Important.objects.get(
+                    problem__id=pid,
+                    session = session,
+                    )
+                imp.ranking = int(request.POST[problem])
+                imp.save()
+            except:
+                pass
         return HttpResponseRedirect(reverse(thanks))
     return render_to_response('problems/order.html',{
         'problems':session.problems(),
