@@ -16,3 +16,4 @@ Thumbs.db
 /venv
 /.env
 /.anvil
+node_modules
