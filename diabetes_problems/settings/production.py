@@ -155,6 +155,7 @@ INSTALLED_APPS = (
     "herokuapp",
     "crispy_forms",
     "athumb",
+    "main",
     'problems',
     'ajax',
 )
