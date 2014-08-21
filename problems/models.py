@@ -1,7 +1,6 @@
 from django.db import models
 
-from athumb.fields import ImageWithThumbsField
-from athumb.backends.s3boto import S3BotoStorage_AllPublic
+from easy_thumbnails.fields import ThumbnailerImageField
 
 from django.db.models.signals import pre_save, post_save, pre_delete
 from django.contrib.auth.models import User
@@ -13,15 +12,9 @@ class Problem(models.Model):
         verbose_name_plural = 'Problems'
 
     title = models.CharField(blank=True, max_length=150)
-    image = ImageWithThumbsField(
+    image = ThumbnailerImageField(
         blank=True,
         upload_to="problems",
-        thumbs = (
-            ('thumb', {'size': (100, 100), 'crop': True}),
-            ('small', {'size': (350, 350)}),
-            ('medium', {'size': (600, 600)}),
-            ('large', {'size': (1000, 1000)}),
-            ),
         )
 
     def __unicode__(self):

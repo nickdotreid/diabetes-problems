@@ -98,6 +98,30 @@ MEDIA_URL = "https://{bucket_name}.s3.amazonaws.com/".format(
 )
 MEDIA_CACHE_BUSTER = 'plz'
 
+
+# Easy Thumbnail Settings
+
+THUMBNAIL_ALIASES = {
+    '':{
+        'thumbnail':{
+            'size':(150,150)
+        },
+        'square':{
+            'size':(300,300),
+            'crop':'smart',
+        },
+        'large':{
+            'size':(800,800)
+        }
+    }
+}
+
+SOUTH_MIGRATION_MODULES = {
+    'easy_thumbnails': 'easy_thumbnails.south_migrations',
+}
+
+
+
 # Email settings.
 
 EMAIL_HOST = "smtp.sendgrid.net"
@@ -154,7 +178,7 @@ INSTALLED_APPS = (
     "south",
     "herokuapp",
     "crispy_forms",
-    "athumb",
+    "easy_thumbnails",
     "main",
     'problems',
     'ajax',
