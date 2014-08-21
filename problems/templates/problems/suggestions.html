@@ -1,7 +1,5 @@
-{% extends 'base.html' %}
 {% load crispy_forms_tags %}
-
-{% block content %}
-<p>Want to add an issue to our list? Do you have a point of view on one of them that you would like to share? Take a minute and describe the problem for us and we will add it to our list.</p>
-{% crispy form %}
-{% endblock content %}
+<div class="pane">
+	<p>Want to add an issue to our list? Do you have a point of view on one of them that you would like to share? Take a minute and describe the problem for us and we will add it to our list.</p>
+	{% crispy form %}
+</div>

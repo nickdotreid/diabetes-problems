@@ -15,7 +15,7 @@ def pick(request):
     try:
         session = Session.objects.get(key=request.session['session_key'])
     except:
-        return response(request, reverse('main-home'))
+        return response(request, redirect=reverse('main-home'))
 
     if request.POST:
         selected_problems = []
@@ -45,9 +45,9 @@ def order(request):
     try:
         session = Session.objects.get(key=request.session['session_key'])
     except:
-        return response(request, reverse('main-home'))
+        return response(request, redirect=reverse('main-home'))
     if len(session.problems()) <= 1:
-        return response(request, reverse('suggestion-add'))
+        return response(request, redirect=reverse('suggestion-add'))
     if request.POST:
         for problem in [x for x in request.POST if 'problem' in x ]:
             try:
@@ -70,7 +70,7 @@ def suggestion(request):
     try:
         session = Session.objects.get(key=request.session['session_key'])
     except:
-        return response(request, reverse('main-home'))
+        return response(request, redirect=reverse('main-home'))
     form = SuggestionForm()
     if request.POST:
         form = SuggestionForm(request.POST)

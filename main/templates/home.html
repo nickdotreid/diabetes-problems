@@ -1,5 +1,22 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {% block content %}
-{% include "main/welcome.html" %}
+	<div class="pane pane-skinny pane-odd">
+		{% include "main/welcome.html" %}
+	</div>
 {% endblock content %}
+
+{% block scripts %}
+{{block.super}}
+<script src="{{STATIC_URL}}hdbus/js/panes.js"></script>
+<script src="{{STATIC_URL}}hdbus/js/page.js"></script>
+<script type="text/javascript">
+	var page = new Page();
+	$(document).ready(function(){
+	$(".pane:first").each(function(){
+		var pane = $(this);
+		page.setPane(this, pane.data("type"));
+	});
+});
+</script>
+{% endblock scripts %}

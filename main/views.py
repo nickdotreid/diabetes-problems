@@ -16,14 +16,16 @@ def response(request, data={}, template="base.html", render=False, error=False, 
             template = render
     	if template and template != "base.html":
     		content = render_to_string(template, data, context_instance=RequestContext(request))
-    		data = {'content', content}
+    		data = {'content':content}
+        if redirect:
+            data = {'redirect':redirect}
     	# append any messages & clear message buffer
     	return HttpResponse(
     		json.dumps(data),
-    		mimetype='application/json',
+    		content_type='application/json',
     		)
     if redirect:
-    	return HttpResponseRedirect(redirect)
+        return HttpResponseRedirect(redirect)
     if render:
         content = render_to_string(render, data, context_instance=RequestContext(request))
         data = {'content': content}
@@ -51,7 +53,7 @@ def home(request):
         'form':survey_form,
         'email_form':email_form,
         },
-        template='problems/thanks.html',
+        render='problems/thanks.html',
         )
 
 def survey(request):
