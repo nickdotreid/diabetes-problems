@@ -4,7 +4,7 @@
 	<div class="pane pane-skinny pane-odd">
 		<h1>Help Us Understand Diabetes Care</h1>
 		{% include "problems/welcome.html" %}
-		<a href="{% url 'problems-pick' %}" class="btn btn-jumbo">Get Started</a>
+		<a href="{% url 'problems-pick' %}" class="btn btn-jumbo btn-ajax">Get Started</a>
 	</div>
 {% endblock content %}
 
@@ -15,7 +15,7 @@
 <script type="text/javascript">
 	var page = new Page();
 	$(document).ready(function(){
-	$(".pane:first").forEach(function(){
+	$(".pane:first").each(function(){
 		var pane = $(this);
 		page.setPane(this, pane.data("type"));
 	});

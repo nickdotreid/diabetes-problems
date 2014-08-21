@@ -1,8 +1,8 @@
 var panes = {};
 var Pane = Backbone.View.extend({
 	events:{
-		'submit form':'load',
-		'click a':'get',
+		'submit form':'getForm',
+		'click .btn-ajax':'getLink',
 	},
 	initialize: function(){
 
@@ -10,18 +10,20 @@ var Pane = Backbone.View.extend({
 	render: function(){
 
 	},
-	load: function(event){
+	getForm: function(event){
 		event.preventDefault();
-		var form = event.currentTarget;
+		var form = $(event.currentTarget);
 		$.ajax({
-
+			type:form.attr("method"),
+			url:form.attr("action"),
+			data:form.serialize(),
 		});
 	},
-	get: function(event){
-		if(event.currentTarget.href.indexOf("#") >= 0) return;
-		event.preventDefault;
+	getLink: function(event){
+		event.preventDefault();
+		var bttn = $(event.currentTarget)
 		$.ajax({
-
+			url:bttn.attr("href"),
 		});
 	},
 });
