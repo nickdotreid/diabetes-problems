@@ -9,11 +9,3 @@ var Page = Backbone.Model.extend({
 		this.set('currentPane', pane);
 	}
 });
-
-var page = new Page();
-$(document).ready(function(){
-	$(".pane:first").forEach(function(){
-		var pane = $(this);
-		page.setPane(this, pane.data("type"));
-	});
-});

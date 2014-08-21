@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<div class="pane pane-skinny pane-odd">
+		<h1>Help Us Understand Diabetes Care</h1>
+		{% include "problems/welcome.html" %}
+	</div>
+{% endblock content %}
+
+{% block scripts %}
+{{block.super}}
+<script src="{{STATIC_URL}}hdbus/js/panes.js"></script>
+<script src="{{STATIC_URL}}hdbus/js/main.js"></script>
+<script type="text/javascript">
+	var page = new Page();
+	$(document).ready(function(){
+	$(".pane:first").forEach(function(){
+		var pane = $(this);
+		page.setPane(this, pane.data("type"));
+	});
+});
+</script>
+{% endblock scripts %}

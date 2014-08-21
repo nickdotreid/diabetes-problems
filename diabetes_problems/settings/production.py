@@ -156,6 +156,7 @@ INSTALLED_APPS = (
     "crispy_forms",
     "athumb",
     'problems',
+    'ajax',
 )
 
 
