@@ -9,14 +9,13 @@ import json
 from django.contrib.auth.models import User
 from problems.models import Problem, Session, Important, PersonType, Survey, Suggestion
 
-from problems.forms import SuggestionForm, SurveyForm, EmailForm, ProblemAddForm
+from problems.forms import SuggestionForm
 
 from django.contrib import messages
 
 from django.core.mail import send_mail
 
 def pick(request):
-    session = False
     if 'session_key' in request.session:
         session = Session.objects.get_or_create(key=request.session['session_key'])
 

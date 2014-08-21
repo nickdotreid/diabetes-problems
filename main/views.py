@@ -8,10 +8,13 @@ from django.template import RequestContext
 import json
 
 from problems.models import Session
+from main.forms import SurveyForm, EmailForm
 
-def response(request, data={}, template="base.html", error=False, redirect=False):
+def response(request, data={}, template="base.html", render=False, error=False, redirect=False):
     if request.is_ajax():
-    	if template:
+        if render:
+            template = render
+    	if template and template != "base.html":
     		content = render_to_string(template, data, context_instance=RequestContext(request))
     		data = {'content', content}
     	# append any messages & clear message buffer
@@ -21,6 +24,9 @@ def response(request, data={}, template="base.html", error=False, redirect=False
     		)
     if redirect:
     	return HttpResponseRedirect(redirect)
+    if render:
+        content = render_to_string(render, data, context_instance=RequestContext(request))
+        data = {'content', content}
     return render_to_response(
     	template,
     	data,
@@ -28,12 +34,13 @@ def response(request, data={}, template="base.html", error=False, redirect=False
     	)	
 
 def home(request):
-	return response(request,
-		template="home.html")
-
-def thanks(request):
     if 'session_key' not in request.session:
-        return home(request)
+        session = Session()
+        session.save()
+        request.session['session_key'] = session.key
+        return response(request,
+            template='home.html',
+            )
     session, created = Session.objects.get_or_create(key=request.session['session_key'])
     
     survey_form = SurveyForm(session=session)
@@ -61,10 +68,11 @@ def survey(request):
             for t in form.cleaned_data['person_types']:
                 ty, created = PersonType.objects.get_or_create(name=t)
                 survey.person_types.add(ty)
-            return HttpResponseRedirect(reverse(thanks))
-    return render_to_response('problems/form.html',{
-        'form':form,
-        },context_instance=RequestContext(request))
+            return response(request, redirect=reverse('main-home'))
+    return response(request,
+    	render='main/form.html',
+    	data = { 'form':form }
+    	)
 
 def email(request):
     if 'session_key' not in request.session:
@@ -87,10 +95,11 @@ def email(request):
                 [user.email],
                 fail_silently=True
                 )
-            return HttpResponseRedirect(reverse(thanks))
-    return render_to_response('problems/form.html',{
-        'form':form,
-        },context_instance=RequestContext(request))
+            return response(request, redirect=reverse('main-home'))
+    return response(request,
+    	render='main/form.html',
+    	data = { 'form':form }
+    	)
 
 def start(request, session_key=False):
     if session_key:
@@ -100,7 +109,7 @@ def start(request, session_key=False):
             request.session['session_key'] = session_key
         except:
             messages.add(request, messages.ERROR,'Your session doesn\'t exist')
-    return HttpResponseRedirect(reverse(thanks))
+    return response(request, redirect=reverse('main-home'))
 
 def end(request):
     try:
@@ -108,4 +117,4 @@ def end(request):
         messages.add(request,messages.SUCCESS,'Your session has been ended.')
     except:
         pass
-    return HttpResponseRedirect(reverse(thanks))
+    return response(request, redirect=reverse('main-home'))
