@@ -1,10 +1,6 @@
-from django.shortcuts import render_to_response, get_object_or_404
-from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import get_object_or_404
 from django.core.urlresolvers import reverse
-
-from django.template import RequestContext
-
-import json
+from main.views import response
 
 from django.contrib.auth.models import User
 from problems.models import Problem, Session, Important, PersonType, Survey, Suggestion
@@ -16,8 +12,10 @@ from django.contrib import messages
 from django.core.mail import send_mail
 
 def pick(request):
-    if 'session_key' in request.session:
-        session = Session.objects.get_or_create(key=request.session['session_key'])
+    try:
+        session = Session.objects.get(key=request.session['session_key'])
+    except:
+        return response(request, reverse('main-home'))
 
     if request.POST:
         selected_problems = []
@@ -30,41 +28,26 @@ def pick(request):
             except:
                 continue
         if len(selected_problems) >= 1 or 'skip' in request.POST:
-            if not session:
-                session = Session()
-                session.save()
-                request.session['session_key'] = session.key
             for problem in selected_problems:
                 imp = Important(
                     problem=problem,
                     session=session,
                     )
                 imp.save()
-            if request.is_ajax():
-                return HttpResponse(json.dumps({
-                    'content':"Something",
-                    }),
-                    mimetype='application/json',
-                )
-            return HttpResponseRedirect(reverse(order))
+            return response(request, redirect=reverse('problems-order'))
         messages.add_message(request, messages.ERROR, 'Either skip this message, or select a problem.')
-    if request.is_ajax():
-        return HttpResponse(json.dumps({
-                'content':"Something",
-                }),
-            mimetype='application/json',
-            )
-    return render_to_response('problems/page-first.html',{
+    return response(request,{
         'problems':Problem.objects.all(),
-        },context_instance=RequestContext(request))
+        },
+        render='problems/problems-form.html')
 
 def order(request):
     try:
         session = Session.objects.get(key=request.session['session_key'])
     except:
-        return HttpResponseRedirect(reverse(important))
+        return response(request, reverse('main-home'))
     if len(session.problems()) <= 1:
-        return HttpResponseRedirect(reverse(suggestion))
+        return response(request, reverse('suggestion-add'))
     if request.POST:
         for problem in [x for x in request.POST if 'problem' in x ]:
             try:
@@ -77,17 +60,17 @@ def order(request):
                 imp.save()
             except:
                 pass
-        return HttpResponseRedirect(reverse(suggestion))
-    return render_to_response('problems/order.html',{
+        return response(request, redirect=reverse('suggestion-add'))
+    return response(request,{
         'problems':session.problems(),
-        }, context_instance=RequestContext(request))
+        }, render='problems/order.html')
 
 
 def suggestion(request):
     try:
         session = Session.objects.get(key=request.session['session_key'])
     except:
-        return HttpResponseRedirect(reverse(important))
+        return response(request, reverse('main-home'))
     form = SuggestionForm()
     if request.POST:
         form = SuggestionForm(request.POST)
@@ -100,8 +83,12 @@ def suggestion(request):
             if 'email' in form.cleaned_data['email']:
                 session.email_add(form.cleaned_data['email'])
             messages.add_message(request, messages.SUCCESS,'Your suggestion has been saved. We will notify you when it is made public.')
-            return HttpResponseRedirect(reverse(thanks))
-    return render_to_response('problems/suggestions.html',{
+            return response(request, redirect=reverse('main-home'))
+        if 'skip' in request.POST:
+            return response(request, redirect=reverse('main-home'))
+    return response(request, {
         'form':form,
-        }, context_instance=RequestContext(request))
+        },
+        render='problems/suggestions.html',
+        )
 

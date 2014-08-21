@@ -13,7 +13,7 @@ urlpatterns = patterns("",
     url(r"^admin/", include(admin.site.urls)),
     # There's no favicon here!
     url(r"^favicon.ico$", generic.RedirectView.as_view()),
+    url(r"^issues/", include('problems.urls')),
     url(r"^", include('main.urls')),
     url(r"^$", 'ajax.views.page'),
-    url(r"^", include('problems.urls')),
 )

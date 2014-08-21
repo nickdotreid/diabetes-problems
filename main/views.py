@@ -26,7 +26,7 @@ def response(request, data={}, template="base.html", render=False, error=False, 
     	return HttpResponseRedirect(redirect)
     if render:
         content = render_to_string(render, data, context_instance=RequestContext(request))
-        data = {'content', content}
+        data = {'content': content}
     return render_to_response(
     	template,
     	data,

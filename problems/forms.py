@@ -2,6 +2,8 @@ from django import forms
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Div, HTML, Submit
 
+from django.core.urlresolvers import reverse
+
 class SuggestionForm(forms.Form):
     description = forms.CharField(
         label="Describe your issue",
@@ -19,7 +21,7 @@ class SuggestionForm(forms.Form):
         super(SuggestionForm,self).__init__(*args,**kwargs)
         self.helper = FormHelper()
         self.helper.form_method = 'post'
-        self.helper.form_action = reverse(suggestion)
+        self.helper.form_action = reverse('suggestion-add')
 
         self.helper.layout = Layout(
             'description',
