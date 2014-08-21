@@ -7,15 +7,13 @@ from django.template import RequestContext
 from django.contrib.auth.models import User
 from problems.models import Problem, Session, Important, PersonType, Survey, Suggestion
 
-from django import forms
-from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Div, HTML, Submit
+from problems.forms import SuggestionForm, SurveyForm, EmailForm, ProblemAddForm
 
 from django.contrib import messages
 
 from django.core.mail import send_mail
 
-def important(request):
+def pick(request):
     session = False
     if 'session_key' in request.session:
         session = Session.objects.get_or_create(key=request.session['session_key'])
@@ -74,38 +72,6 @@ def order(request):
         'problems':session.problems(),
         }, context_instance=RequestContext(request))
 
-class SuggestionForm(forms.Form):
-    description = forms.CharField(
-        label="Describe your issue",
-        help_text='Tell us about the context about the issue. When does the issues happen? Who is involved?',
-        required=True,
-        widget = forms.Textarea,
-        )
-    email = forms.CharField(
-        label="Add your email address so we can clarify anything we don't understand in your issue (Optional)",
-        required=False,
-        widget=forms.EmailInput,
-        )
-
-    def __init__(self, *args, **kwargs):
-        super(SuggestionForm,self).__init__(*args,**kwargs)
-        self.helper = FormHelper()
-        self.helper.form_method = 'post'
-        self.helper.form_action = reverse(suggestion)
-
-        self.helper.layout = Layout(
-            'description',
-            'email',
-            HTML("""
-                    <nav class="navbar navbar-default navbar-fixed-bottom form-actions">
-                        <div class="container">
-                            <input class="navbar-btn btn btn-default pull-right" type="submit" name="selected" value="Add Your Suggestion" />
-                            <input class="navbar-btn btn pull-right" type="submit" name="skip" value="Skip" />
-                        </div>
-                    </nav>
-                """)
-            )
-
 
 def suggestion(request):
     try:
@@ -128,75 +94,6 @@ def suggestion(request):
     return render_to_response('problems/suggestions.html',{
         'form':form,
         }, context_instance=RequestContext(request))
-
-
-class SurveyForm(forms.Form):
-    person_types = forms.MultipleChoiceField(
-        label = 'Check every term that best descibe you',
-        widget=forms.CheckboxSelectMultiple,
-        choices = (
-            ('Patient','Patient'),
-            ('Medical Provider','Medical Provider'),
-            ('Caregiver','Caregiver'),
-            ('Designer','Designer'),
-            ('Technologist','Technologist'),
-            ),
-        )
-    birth_year = forms.CharField(
-        label = 'Enter your birth year',
-        help_text= 'Enter the year in YYYY format',
-        )
-    def __init__(self, data=None, session=None, *args, **kwargs):
-        if data:
-            super(SurveyForm, self).__init__(data, *args, **kwargs)
-        else:
-            super(SurveyForm, self).__init__(*args, **kwargs)
-        if session:
-            self.session = session
-        self.helper = FormHelper()
-        self.helper.form_method = 'post'
-        self.helper.form_action = reverse(survey)
-        self.helper.add_input(Submit('submit', 'Submit'))
-
-    def clean(self):
-        cleaned_data = super(SurveyForm, self).clean()
-        if 'birth_year' not in cleaned_data:
-            return cleaned_data
-        birth_year = cleaned_data['birth_year']
-        if len(birth_year) != 4:
-            self._errors['birth_year'] = self.error_class(['Please enter only 4 digits'])
-            del cleaned_data['birth_year']
-        try:
-            birth_year = int(birth_year)
-        except:
-            self._errors['birth_year'] = self.error_class(['Please enter only numbers'])
-            del cleaned_data['birth_year']
-        return cleaned_data
-
-class EmailForm(forms.Form):
-    email = forms.CharField(required=True, widget=forms.EmailInput)
-
-    def __init__(self, data=None, session=None, *args, **kwargs):
-        if data:
-            super(EmailForm, self).__init__(data, *args, **kwargs)
-        else:
-            super(EmailForm, self).__init__(*args, **kwargs)
-        if session:
-            self.session = session
-        self.helper = FormHelper()
-        self.helper.form_method = 'post'
-        self.helper.form_action = reverse(email)
-
-        if self.session and self.session.user:
-            self.helper.layout = Layout(
-                HTML("<p>Thanks for giving us your email. You should recieve an email from us shortly.</p>"),
-                )
-        else:
-            self.helper.layout = Layout(
-                'email',
-                Submit('submit','Add your email')
-                )
-
 
 def thanks(request):
     if 'session_key' not in request.session:
@@ -255,35 +152,6 @@ def email(request):
     return render_to_response('problems/form.html',{
         'form':form,
         },context_instance=RequestContext(request))
-
-class ProblemAddForm(forms.Form):
-    description = forms.CharField(required=True, widget=forms.Textarea)
-
-    def __init__(self, *args, **kwargs):
-        super(ProblemAddForm, self).__init__(*args, **kwargs)
-        self.helper = FormHelper()
-        self.helper.form_method = 'post'
-        self.helper.form_action = reverse(add)
-        self.helper.add_input(Submit('submit', 'Submit'))
-
-def add(request):
-    if 'session_key' not in request.session:
-        return HttpResponseRedirect(reverse(important))
-    session, created = Session.objects.get_or_create(key=request.session['session_key'])
-    form = ProblemAddForm()
-    if request.POST:
-        form = ProblemAddForm(request.POST)
-        if form.is_valid():
-            s = Suggestion(
-                description = form.cleaned_data['description'],
-                session = session,
-                )
-            s.save()
-            messages.add_message(request, messages.SUCCESS, 'Added your problem suggestion. We will add it to the site soon.')
-            return HttpResponseRedirect(reverse(thanks))
-    return render_to_response('problems/add.html',{
-            'form':form,
-            },context_instance=RequestContext(request))
 
 def start(request, session_key=False):
     if session_key:
