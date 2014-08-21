@@ -4,6 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 
 from django.template import RequestContext
+from django.contrib import messages
 
 import json
 
@@ -19,7 +20,12 @@ def response(request, data={}, template="base.html", render=False, error=False, 
     		data = {'content':content}
         if redirect:
             data = {'redirect':redirect}
-    	# append any messages & clear message buffer
+        data['messages'] = []
+        for message in messages.get_messages(request):
+            data['messages'].append({
+                'text':message.message,
+                'type':message.tags,
+                })
     	return HttpResponse(
     		json.dumps(data),
     		content_type='application/json',
