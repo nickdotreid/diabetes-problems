@@ -3,7 +3,12 @@
 	<form action="{% url 'problems-pick' %}" method="POST">
 		{% csrf_token %}
 		<fieldset>
-			<legend><strong>Select the issues that are most important to you,</strong> from this list of issues other diabetics have contributed.</legend>
+		<nav class="navbar navbar-default navbar-fixed-bottom form-actions">
+			<div class="container">
+				<legend><strong>Select the issues that are most important to you,</strong> from this list of issues other diabetics have contributed.</legend>
+				<input class="navbar-btn btn btn-default pull-right" type="submit" name="selected" value="Next" />
+			</div>
+		</nav>
 		{% for problem in problems %}
 			<div class="problem {% if not forloop.counter|divisibleby:"2" %}problem-odd{% endif %} {% if forloop.counter|divisibleby:"3" %}problem-third{% endif %}">
 				<input class="checkbox" id="problem-{{problem.id}}" type="checkbox" name="problem-{{problem.id}}" value="True" />
@@ -14,11 +19,6 @@
 			</div>
 		{% endfor %}
 		</fieldset>
-		<nav class="navbar navbar-default navbar-fixed-bottom form-actions">
-			<div class="container">
-				<input class="navbar-btn btn btn-default pull-right" type="submit" name="selected" value="Next" />
-				<input class="navbar-btn btn pull-right" type="submit" name="skip" value="None of these problems are important" />
-			</div>
-		</nav>
+		<input class="navbar-btn btn btn-default pull-right" type="submit" name="selected" value="Next" />
 	</form>
 </div>
