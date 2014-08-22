@@ -53,7 +53,7 @@ def home(request):
         session.save()
         request.session['session_key'] = session.key
         return response(request,
-            template='home.html',
+            render='main/welcome.html',
             )
     session, created = Session.objects.get_or_create(key=request.session['session_key'])
     
