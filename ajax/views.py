@@ -4,7 +4,9 @@ from django.core.urlresolvers import reverse
 
 from django.template import RequestContext
 
-def page(request):
-	# check session and switch initial content?
-	return render_to_response('ajax.html',{
-        },context_instance=RequestContext(request))
+from main.views import home as main_home
+
+def home(request):
+	if not request.is_ajax():
+		del request.session['session_key']
+	return main_home(request)
