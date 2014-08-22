@@ -1,3 +1,9 @@
-from django.db import models
+from main.views import pre_template_render
+from django.dispatch import receiver
 
-# Create your models here.
+@receiver(pre_template_render)
+def change_template(sender, **kwargs):
+    print("Request finished!")
+    if 'template' in kwargs and kwargs['template'] == 'base.html':
+    	return "ajax.html"
+    return False

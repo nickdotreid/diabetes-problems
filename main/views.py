@@ -11,7 +11,13 @@ import json
 from problems.models import Session
 from main.forms import SurveyForm, EmailForm
 
+import django.dispatch
+pre_template_render = django.dispatch.Signal(providing_args=["template"])
+
 def response(request, data={}, template="base.html", render=False, error=False, redirect=False):
+    for reciver, response in pre_template_render.send(False, template=template):
+        if response:
+            template = response
     if request.is_ajax():
         if render:
             template = render
