@@ -1,3 +1,4 @@
+{% load thumbnail %}
 <div class="pane">
 	<form action="{% url 'problems-pick' %}" method="POST">
 		{% csrf_token %}
@@ -8,7 +9,7 @@
 				<input class="checkbox" id="problem-{{problem.id}}" type="checkbox" name="problem-{{problem.id}}" value="True" />
 				<label class="title problem-title" for="problem-{{problem.id}}">{{problem.title}}</label>
 				{% if problem.image %}
-					<label for="problem-{{problem.id}}"><img src="{% thumbnail problem.image 'small' %}" alt="" /></label>
+					<label for="problem-{{problem.id}}"><img src="{{ problem.image|thumbnail_url:'thumbnail' }}" alt="" /></label>
 				{% endif %}
 			</div>
 		{% endfor %}

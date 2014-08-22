@@ -13,7 +13,6 @@ bdist-mpkg==0.4.4
 bonjour-py==0.3
 boto==2.29.1
 dj-database-url==0.3.0
-django-athumb==2.0
 django-crispy-forms==1.4.0
 django-herokuapp==0.9.18
 django-require==1.0.6

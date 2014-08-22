@@ -58,7 +58,7 @@ DATABASES = {
 # Use Amazon S3 for storage for uploaded media files.
 
 DEFAULT_FILE_STORAGE = "storages.backends.s3boto.S3BotoStorage"
-
+MEDIA_SERVE = False
 
 # Use Amazon S3 and RequireJS for static files storage.
 

@@ -19,14 +19,16 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 
-# Serve staticfiles locally for development.
+# Serve files locally for development.
+DEFAULT_FILE_STORAGE = "django.core.files.storage.FileSystemStorage"
 
 STATICFILES_STORAGE = "require.storage.OptimizedCachedStaticFilesStorage"
-
 STATIC_URL = "/static/"
-
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_SERVE = True
 
 # Use local server.
 

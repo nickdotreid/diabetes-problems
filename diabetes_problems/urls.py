@@ -2,8 +2,7 @@ from django.conf.urls import patterns, url, include
 from django.contrib import admin
 from django.views import generic
 
-from django.template import add_to_builtins
-add_to_builtins('athumb.templatetags.thumbnail')
+from django.conf import settings
 
 admin.autodiscover()
 
@@ -13,6 +12,10 @@ urlpatterns = patterns("",
     # There's no favicon here!
     url(r"^favicon.ico$", generic.RedirectView.as_view()),
     url(r"^issues/", include('problems.urls')),
-#    url(r"^$", 'ajax.views.page'),
     url(r"^", include('main.urls')),
 )
+
+if settings.MEDIA_SERVE:
+	urlpatterns = patterns("",
+		 (r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT})
+		) + urlpatterns
