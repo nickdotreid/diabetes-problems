@@ -7,6 +7,6 @@ from django.template import RequestContext
 from main.views import home as main_home
 
 def home(request):
-	if not request.is_ajax():
+	if not request.is_ajax() and 'session_key' in request.session:
 		del request.session['session_key']
 	return main_home(request)
