@@ -8,9 +8,9 @@ django-herokuapp==0.9.18
 django-require==1.0.6
 django-require-s3==1.0.0
 django-storages==1.1.8
-easy-thumbnails==2.1
 psycopg2==2.5.3
 pycrypto==2.6.1
 pytz==2014.4
 sh==1.09
+sorl-thumbnail==11.12
 waitress==0.8.9
