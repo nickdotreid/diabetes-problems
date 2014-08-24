@@ -54,6 +54,9 @@ def home(request):
         request.session['session_key'] = session.key
         return response(request,
             render='main/welcome.html',
+            data = {
+                'email_form':EmailForm(session=session)
+            }
             )
     session, created = Session.objects.get_or_create(key=request.session['session_key'])
     
