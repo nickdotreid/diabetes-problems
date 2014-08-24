@@ -14,13 +14,21 @@ var Page = Backbone.Model.extend({
 			}
 			if(data['content']){
 				var pane = $(data['content']).insertAfter($(".pane:last"));
+				pane.hide();
 				model.setPane(pane[0],pane.data("type"));
 			}
 		});
 	},
 	setPane: function(div, type){
 		var oldPane = this.get("currentPane");
-		if(oldPane) oldPane.remove();
+		if(oldPane){
+			var page = this;
+			oldPane.remove(function(){
+				page.set("currentPane", false);
+				page.setPane(div, type);
+			});
+			return this;
+		}
 
 		var paneView = Pane;
 		if(type && panes[type]) paneView = panes[type];
@@ -30,5 +38,6 @@ var Page = Backbone.Model.extend({
 		});
 		this.set('currentPane', pane);
 		this.listenTo(pane, 'pane-added', this.setPane);
+		return this;
 	}
 });

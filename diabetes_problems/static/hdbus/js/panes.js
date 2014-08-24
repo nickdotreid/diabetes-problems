@@ -8,8 +8,10 @@ var Pane = Backbone.View.extend({
 		this.render()
 	},
 	render: function(){
-		this.$el.show();
 		// resize pane to display if needed
+		
+		// if div not visable
+		this.show();
 	},
 	getForm: function(event){
 		event.preventDefault();
@@ -35,12 +37,23 @@ var Pane = Backbone.View.extend({
 		bttn.addClass("loading")
 		$.ajax({
 			url:bttn.attr("href"),
-			success:function(data){
-
-			},
 			done:function(){
 				bttn.removeClass("loading");
 			}
 		});
 	},
+	remove: function(callback){
+		this.hide(callback);
+		Backbone.View.prototype.remove.apply(this);
+	},
+	show: function(callback){
+		this.$el.show();
+		if(callback) callback();
+		return this;
+	},
+	hide: function(callback){
+		this.$el.hide();
+		if(callback) callback();
+		return this;
+	}
 });
