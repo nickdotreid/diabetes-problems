@@ -5,8 +5,11 @@
 		<fieldset>
 		<nav class="navbar navbar-default navbar-fixed-bottom form-actions">
 			<div class="container">
-				<legend><strong>Select the issues that are most important to you,</strong> from this list of issues other diabetics have contributed.</legend>
-				<input class="navbar-btn btn btn-default pull-right" type="submit" name="selected" value="Next" />
+				<div class="pull-right">
+					<input class="navbar-btn btn btn-default pull-right" type="submit" name="selected" value="Next" />
+				</div>
+				<legend>From this list of contributed issues, <strong>select the issues that are most important to you.</strong> </legend>
+
 			</div>
 		</nav>
 		{% for problem in problems %}
