@@ -26,12 +26,8 @@ class SuggestionForm(forms.Form):
         self.helper.layout = Layout(
             'description',
             'email',
-            HTML("""
-                    <nav class="navbar navbar-default navbar-fixed-bottom form-actions">
-                        <div class="container">
-                            <input class="navbar-btn btn btn-default pull-right" type="submit" name="selected" value="Add Your Suggestion" />
-                            <input class="navbar-btn btn pull-right" type="submit" name="skip" value="Skip" />
-                        </div>
-                    </nav>
-                """)
+            Div(
+                Submit("submit","Add Your Issue", css_class="btn-primary btn-large pull-right"),
+                Submit("skip","Not now", css_class="btn-secondary btn-large pull-right"),
+                css_class="form-actions")
             )
