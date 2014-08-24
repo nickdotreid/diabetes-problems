@@ -11,7 +11,7 @@ var Pane = Backbone.View.extend({
 		// resize pane to display if needed
 		
 		// if div not visable
-		this.show();
+		if(!this.$el.is(':visible')) this.show();
 	},
 	getForm: function(event){
 		event.preventDefault();
@@ -43,17 +43,54 @@ var Pane = Backbone.View.extend({
 		});
 	},
 	remove: function(callback){
-		this.hide(callback);
-		Backbone.View.prototype.remove.apply(this);
+		var view = this;
+		this.hide(function(){
+			if(callback) callback();
+			Backbone.View.prototype.remove.apply(view);
+		});
 	},
 	show: function(callback){
-		this.$el.show();
-		if(callback) callback();
+		this.$el.show().css({
+			'position':'absolute',
+			'top':this.$el.height(),
+			'width':this.$el.parent().width(),
+		}).animate({
+			'top':this.$el.css("margin-top"),
+		},{
+			'always':function(){
+				if(callback) callback();
+			}
+		});
+		this.$('.form-actions').each(function(){
+			var menu = $(this);
+			menu.css({
+				'bottom':0-menu.height(),
+			}).animate({
+				'bottom':0,
+			});
+		});
 		return this;
 	},
 	hide: function(callback){
-		this.$el.hide();
-		if(callback) callback();
+		this.$('.form-actions').each(function(){
+			var menu = $(this);
+			menu.animate({
+				'bottom':0-menu.height(),
+			});
+		});
+		this.$el.css({
+			'position':'absolute',
+			'top':this.$el.css("margin-top"),
+			'width':this.$el.parent().width(),
+			'opacity':1,
+		}).animate({
+			'opacity':0,
+			'top':0-this.$el.height(),
+		},{
+			'always':function(){
+				if(callback) callback();
+			}
+		});
 		return this;
 	}
 });
