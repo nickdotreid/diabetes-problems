@@ -4,19 +4,17 @@
 	margin-right:auto;
 }
 
-
-
 .problem-card{
 	@problem_width: @largeSize/4 - @spaceSize;
 	display:block;
 	position: relative;
 	float:left;
 	width: @problem_width;
-	padding-top: @problem_width + @spaceSize;
+	padding-top: @problem_width - @spaceSize + @spaceSize/2;
 	img{
 		width:@problem_width - @spaceSize;
 		position:absolute;
-		top:@spaceSize;
+		top:0px;
 		left:@spaceSize/2;
 	}
 	input.checkbox{

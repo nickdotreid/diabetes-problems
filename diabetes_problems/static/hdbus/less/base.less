@@ -82,9 +82,6 @@ legend{
 .problem{
 	position:relative;
 	margin:@spaceSize/2;
-	&.problem-selected{
-		background-color:#ddd;
-	}
 	label{
 		display:block;
 		width:100%;
@@ -105,8 +102,12 @@ legend{
 		width:95%;
 		margin:0px auto;
 	}
-}
-
-.problem-card{
-	border:@borderColor @borderWidth solid;
+	&.problem-selected{
+		.problem-title{
+			color:lighten(@primaryColor,20%);
+		}
+		img{
+			opacity:0.8;
+		}
+	}
 }
