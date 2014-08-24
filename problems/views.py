@@ -41,6 +41,32 @@ def pick(request):
         },
         render='problems/problems-form.html')
 
+def most(request):
+    try:
+        session = Session.objects.get(key=request.session['session_key'])
+    except:
+        return response(request, redirect=reverse('main-home'))
+    if len(session.problems()) <= 1:
+        return response(request, redirect=reverse('suggestion-add'))
+    if request.POST:
+        if 'problem' in request.POST:
+            try:
+                imp = Important.objects.get(
+                    problem_id = request.POST['problem'],
+                    session = session,
+                    )
+                imp.ranking = 1
+                imp.save()
+                Important.objects.filter(session=session).exclude(id=imp.id).update(ranking=0)
+                messages.add_message(request, messages.SUCCESS, "Your most important issue has been saved")
+                return response(request, redirect=reverse('main-home'))
+            except:
+                pass
+        messages.add_message(request, messages.ERROR, "Problem saving your most important issue")
+    return response(request,{
+        'problems':session.problems(),
+        }, render="problems/most.html")
+
 def order(request):
     try:
         session = Session.objects.get(key=request.session['session_key'])
