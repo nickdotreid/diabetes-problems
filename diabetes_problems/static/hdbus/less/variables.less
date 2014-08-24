@@ -6,7 +6,7 @@
 @primaryColor:	#1B457B;
 @secondaryColor:	#F3AD26;
 
-@brand-primary:         #428bca;
+@brand-primary:         @primaryColor;
 @brand-success:         #5cb85c;
 @brand-info:            #5bc0de;
 @brand-warning:         #f0ad4e;
@@ -44,3 +44,44 @@
 @navbar-default-border: @secondaryBorderColor;
 
 @icon-font-path: "../../bootstrap/fonts/";
+
+
+// MIXINS
+
+.button-variant(@color; @background; @border) {
+  color: @color;
+  background-color: @background;
+  border-color: @border;
+
+  &:hover,
+  &:focus,
+  &:active,
+  &.active,
+  .open > .dropdown-toggle& {
+    color: @color;
+    background-color: lighten(@background, 10%);
+        border-color: lighten(@border, 12%);
+  }
+  &:active,
+  &.active,
+  .open > .dropdown-toggle& {
+    background-image: none;
+  }
+  &.disabled,
+  &[disabled],
+  fieldset[disabled] & {
+    &,
+    &:hover,
+    &:focus,
+    &:active,
+    &.active {
+      background-color: @background;
+          border-color: @border;
+    }
+  }
+
+  .badge {
+    color: @background;
+    background-color: @color;
+  }
+}

@@ -28,10 +28,25 @@
 }
 
 // BUTTONS
+.btn{
+	border-width:0px !important;
+	&.pull-right{
+		margin-left:@spaceSize
+	}
+}
 
 .btn-large{
 	font-size: @largeFontSize;
+	font-weight:bold;
 	padding:@spaceSize @spaceSize;
+}
+
+.btn-secondary{
+	color:#FFFFFF;
+	background-color:@secondaryColor;
+	&:hover{
+		background-color:lighten(@secondaryColor, 15%);
+	}
 }
 
 .btn-jumbo{
@@ -46,7 +61,7 @@ legend{
 	border-width:0px;
 }
 
-.form-actions, .navbar.form-actions{
+.navbar.form-actions{
 	background-color: @secondaryBackgroundColor;
 	border-width:0px;
 	border-top: @secondaryBorderColor @borderWidthThick solid;
