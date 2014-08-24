@@ -95,3 +95,19 @@ var Pane = Backbone.View.extend({
 	}
 });
 
+var ProblemPane = Pane.extend({
+	'events':function(){
+      return _.extend({},Pane.prototype.events,{
+		'change .problem input':'toggleProblem',
+      });
+	},
+	toggleProblem:function(event){
+		if(event.currentTarget.checked){
+			$(event.currentTarget).parent().addClass("problem-selected");
+		}else{
+			$(event.currentTarget).parent().removeClass("problem-selected");
+		}
+	},
+});
+panes['problems'] = ProblemPane;
+

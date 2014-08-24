@@ -32,7 +32,7 @@ var Page = Backbone.Model.extend({
 
 		var paneView = Pane;
 		if(type && panes[type]) paneView = panes[type];
-		var pane = new Pane({
+		var pane = new paneView({
 			model:this,
 			el:div,
 		});
