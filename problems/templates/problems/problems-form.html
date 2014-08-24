@@ -10,7 +10,7 @@
 			</div>
 		</nav>
 		{% for problem in problems %}
-			<div class="problem {% if not forloop.counter|divisibleby:"2" %}problem-odd{% endif %} {% if forloop.counter|divisibleby:"3" %}problem-third{% endif %}">
+			<div class="problem problem-card {% if forloop.counter == 1 %}problem-first {% endif %}{% if not forloop.counter|divisibleby:"2" %}problem-odd {% endif %}{% if forloop.counter|divisibleby:"5" %}problem-fifth {% endif %}">
 				<input class="checkbox" id="problem-{{problem.id}}" type="checkbox" name="problem-{{problem.id}}" value="True" />
 				<label class="title problem-title" for="problem-{{problem.id}}">{{problem.title}}</label>
 				{% thumbnail problem.image "300x300" crop="center" as im %}

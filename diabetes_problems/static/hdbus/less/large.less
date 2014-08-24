@@ -4,16 +4,25 @@
 	margin-right:auto;
 }
 
-.problem{
-	@problem_width: @largeSize/2 - @spaceSize;
+.problem-card{
+	@problem_width: @largeSize/4 - @spaceSize;
 	display:block;
+	position: relative;
 	float:left;
 	width: @problem_width;
+	padding-top: @problem_width + @spaceSize;
 	img{
-		width:@problem_width - @spaceSize*2;
-		margin:@spaceSize;
+		width:@problem_width - @spaceSize;
+		position:absolute;
+		top:@spaceSize;
+		left:@spaceSize/2;
 	}
+	input.checkbox{
+		display:none;
+	}
+
 }
-.problem-odd{
+
+.problem-fifth, .problem-first{
 	clear:left;
 }
