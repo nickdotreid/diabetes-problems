@@ -1,12 +1,12 @@
 {% load thumbnail %}
-<div class="pane">
+<div class="pane" data-type="problems">
 	<form action="{% url 'problems-pick' %}" method="POST">
 		{% csrf_token %}
 		<fieldset>
 		<nav class="navbar navbar-default navbar-fixed-bottom form-actions">
 			<div class="container">
 				<div class="pull-right">
-					<input class="navbar-btn btn btn-default pull-right" type="submit" name="selected" value="Next" />
+					<input class="btn btn-primary btn-large pull-right" type="submit" name="selected" value="Next" />
 				</div>
 				<legend>From this list of contributed issues, <strong>select the issues that are most important to you.</strong> </legend>
 
