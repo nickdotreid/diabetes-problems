@@ -1,9 +1,38 @@
+.hidden{ // hides element from sighted users, but not screen readers;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	background-color: transparent !important;
+	border-width:0px !important;
+	text-indent: 100px;
+}
+
+
+// ICONS
+.hdbus-logo{
+	display:block;
+	background-image: url('../i/hdbyus-logo.png');
+	background-repeat: none;
+	background-position: 0px 0px;
+	width:65px;
+	height:45px;
+	overflow: hidden;
+	text-indent: -30000px;
+}
+
+// FORMS
+
+// SCAFFHOLDING
 .container{
     width:auto;
     margin:0px @spaceSize;
     padding:0px;
 }
 
+// NAVBAR
 .navbar-vertical{
 	width:100%;
 	position:fixed;
@@ -19,28 +48,8 @@
 	padding-left:75px;
 }
 
-.hdbus-logo{
-	display:block;
-	background-image: url('../i/hdbyus-logo.png');
-	background-repeat: none;
-	background-position: 0px 0px;
-	width:65px;
-	height:45px;
-	overflow: hidden;
-	text-indent: -30000px;
-}
 
-.checkbox{
-	position: relative;
-	padding-left: @spaceSize*2;
-	input, input[type="checkbox"]{
-		position: absolute;
-		top:4px;
-		left:3px;
-		margin:0px
-	}
-}
-
+// PROBLEMS
 .problem{
 	position:relative;
 	margin:@spaceSize/2;
@@ -71,11 +80,4 @@
 
 .problem-card{
 	border:@borderColor @borderWidth solid;
-}
-
-.nav-sticky{
-	position:fixed;
-	bottom:0px;
-	left:0px;
-	width:100%;
 }
