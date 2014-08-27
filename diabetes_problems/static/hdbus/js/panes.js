@@ -5,11 +5,12 @@ var Pane = Backbone.View.extend({
 		'click .btn-ajax':'getLink',
 	},
 	initialize: function(){
-		this.render()
+		this.paneShow();
+		
+
 	},
 	render: function(){
-		this.$el.show();
-		// resize pane to display if needed
+		
 	},
 	getForm: function(event){
 		event.preventDefault();
@@ -43,4 +44,16 @@ var Pane = Backbone.View.extend({
 			}
 		});
 	},
+	paneRemove: function(){
+		this.$el.addClass("");
+
+		var view = this;
+		//view.remove();
+		// setTimeout(function(){
+		// view.remove();
+		// }, 1500);
+	},
+	paneShow: function(){
+		this.$el.show();
+	}
 });
