@@ -10,7 +10,10 @@ var Pane = Backbone.View.extend({
 
 	},
 	render: function(){
+		// resize pane to display if needed
 		
+		// if div not visable
+		if(!this.$el.is(':visible')) this.show();
 	},
 	getForm: function(event){
 		event.preventDefault();
@@ -36,14 +39,12 @@ var Pane = Backbone.View.extend({
 		bttn.addClass("loading")
 		$.ajax({
 			url:bttn.attr("href"),
-			success:function(data){
-
-			},
 			done:function(){
 				bttn.removeClass("loading");
 			}
 		});
 	},
+<<<<<<< HEAD
 	paneRemove: function(){
 		this.$el.addClass("");
 
@@ -57,3 +58,74 @@ var Pane = Backbone.View.extend({
 		this.$el.show();
 	}
 });
+=======
+	remove: function(callback){
+		var view = this;
+		this.hide(function(){
+			if(callback) callback();
+			Backbone.View.prototype.remove.apply(view);
+		});
+	},
+	show: function(callback){
+		this.$el.show().css({
+			'position':'absolute',
+			'top':this.$el.height(),
+			'width':this.$el.parent().width(),
+		}).animate({
+			'top':this.$el.css("margin-top"),
+		},{
+			'always':function(){
+				if(callback) callback();
+			}
+		});
+		this.$('.form-actions').each(function(){
+			var menu = $(this);
+			menu.css({
+				'bottom':0-menu.height(),
+			}).animate({
+				'bottom':0,
+			});
+		});
+		return this;
+	},
+	hide: function(callback){
+		this.$('.form-actions').each(function(){
+			var menu = $(this);
+			menu.animate({
+				'bottom':0-menu.height(),
+			});
+		});
+		this.$el.css({
+			'position':'absolute',
+			'top':this.$el.css("margin-top"),
+			'width':this.$el.parent().width(),
+			'opacity':1,
+		}).animate({
+			'opacity':0,
+			'top':0-this.$el.height(),
+		},{
+			'always':function(){
+				if(callback) callback();
+			}
+		});
+		return this;
+	}
+});
+
+var ProblemPane = Pane.extend({
+	'events':function(){
+      return _.extend({},Pane.prototype.events,{
+		'change .problem input':'toggleProblem',
+      });
+	},
+	toggleProblem:function(event){
+		if(event.currentTarget.checked){
+			$(event.currentTarget).parent().addClass("problem-selected");
+		}else{
+			$(event.currentTarget).parent().removeClass("problem-selected");
+		}
+	},
+});
+panes['problems'] = ProblemPane;
+
+>>>>>>> 96dcd9cc554bf3080dfca706a0cc77a0e01e97ef

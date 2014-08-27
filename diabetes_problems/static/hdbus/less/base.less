@@ -1,34 +1,109 @@
+*{
+	border-radius: 0px !important;
+}
+
+.hidden{ // hides element from sighted users, but not screen readers;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	background-color: transparent !important;
+	border-width:0px !important;
+	text-indent: 100px;
+}
+
+
+// ICONS
+.hdbus-logo{
+	display:block;
+	background-image: url('../i/hdbyus-logo.png');
+	background-repeat: none;
+	background-position: 0px 0px;
+	width:65px;
+	height:50px;
+	overflow: hidden;
+	text-indent: -30000px;
+}
+
+// BUTTONS
+.btn{
+	border-width:0px !important;
+	&.pull-right{
+		margin-left:@spaceSize
+	}
+}
+
+.btn-large{
+	font-size: @largeFontSize;
+	font-weight:bold;
+	padding:@spaceSize @spaceSize;
+}
+
+.btn-secondary{
+	color:#FFFFFF;
+	background-color:@secondaryColor;
+	&:hover{
+		background-color:lighten(@secondaryColor, 15%);
+	}
+}
+
+.btn-jumbo{
+	width:100%;
+	font-size: @largeFontSize;
+	padding:@spaceSize @spaceSize/2;
+	margin:0px 0px @spaceSize;
+}
+
+// FORMS
+legend{
+	border-width:0px;
+}
+
+.navbar.form-actions{
+	background-color: @secondaryBackgroundColor;
+	border-width:0px;
+	border-top: @secondaryBorderColor @borderWidthThick solid;
+	height:auto;
+	padding-top:@spaceSize;
+	padding-bottom:@spaceSize;
+}
+
+// SCAFFHOLDING
 .container{
     width:auto;
     margin:0px @spaceSize;
     padding:0px;
 }
 
-.checkbox{
-	position: relative;
-	padding-left: @spaceSize*2;
-	input, input[type="checkbox"]{
-		position: absolute;
-		top:4px;
-		left:3px;
-		margin:0px
+// NAVBAR
+.navbar-vertical{
+	width:100%;
+	position:fixed;
+	top:0px;
+	left:0px;
+	z-index: 100;
+	.container{
+		padding-top:@spaceSize;
+		padding-bottom:@spaceSize;
 	}
 }
+.container-with-navbar-vertical-space{
+	padding-left:75px;
+}
 
+
+// PROBLEMS
 .problem{
 	position:relative;
 	margin:@spaceSize/2;
-	&.problem-selected{
-		background-color:#ddd;
-	}
 	label{
 		display:block;
 		width:100%;
 	}
-	input.checkbox{
-		position:absolute;
-		top:@spaceSize/2;
-		left:@spaceSize/2;
+	input.checkbox, input.radio{
+		display:none;
 	}
 	.problem-title{
 		display:block;
@@ -41,11 +116,12 @@
 		width:95%;
 		margin:0px auto;
 	}
-}
-
-.nav-sticky{
-	position:fixed;
-	bottom:0px;
-	left:0px;
-	width:100%;
+	&.problem-selected{
+		.problem-title{
+			color:lighten(@primaryColor,20%);
+		}
+		img{
+			opacity:0.8;
+		}
+	}
 }

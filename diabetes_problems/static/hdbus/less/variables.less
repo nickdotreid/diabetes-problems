@@ -1,8 +1,87 @@
-@largeSize:	600px;
+@largeSize:	760px;
 
-@spaceSize:	10px;
+@spaceSize:	14px;
 
-@primaryColor:	#333333;
-@secondaryColor:	#999999;
+// COLORS
+@primaryColor:	#1B457B;
+@secondaryColor:	#F3AD26;
+
+@brand-primary:         @primaryColor;
+@brand-success:         #5cb85c;
+@brand-info:            #5bc0de;
+@brand-warning:         #f0ad4e;
+@brand-danger:          #d9534f;
+
+@text-color:            @primaryColor;
+
+@link-color:            @brand-primary;
+@link-hover-color:      darken(@link-color, 15%);
+
+@backgroundColor: #FFFFFF;
+@body-bg: @backgroundColor;
+@secondaryBackgroundColor: #DBDBDB;
+
+// TYPOGRAPHY
+@fontSize: 14px;
+@largeFontSize: 18px;
+@largestFontSize: 28px;
+
+// BORDERS
+@borderWidth:	3px;
+@borderColor:	@primaryColor;
+
+@borderWidthThick: 6px;
+
+@secondaryBorderColor: @secondaryColor;
+
+// FORMS
+@input-color: @primaryColor;
+@legend-color: @primaryColor;
+
+
+// NAVBAR
+@navbar-default-bg: @secondaryBackgroundColor;
+@navbar-default-border: @secondaryBorderColor;
 
 @icon-font-path: "../../bootstrap/fonts/";
+
+
+// MIXINS
+
+.button-variant(@color; @background; @border) {
+  color: @color;
+  background-color: @background;
+  border-color: @border;
+
+  &:hover,
+  &:focus,
+  &:active,
+  &.active,
+  .open > .dropdown-toggle& {
+    color: @color;
+    background-color: lighten(@background, 10%);
+        border-color: lighten(@border, 12%);
+  }
+  &:active,
+  &.active,
+  .open > .dropdown-toggle& {
+    background-image: none;
+  }
+  &.disabled,
+  &[disabled],
+  fieldset[disabled] & {
+    &,
+    &:hover,
+    &:focus,
+    &:active,
+    &.active {
+      background-color: @background;
+          border-color: @border;
+    }
+  }
+
+  .badge {
+    color: @background;
+    background-color: @color;
+  }
+}

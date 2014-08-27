@@ -19,7 +19,12 @@
         {% endblock %}
     </head>
     <body>
-        <div class="container">
+        <div class="navbar navbar-main navbar-vertical">
+            <div class="container">
+                <a href="/" class="logo hdbus-logo">Health Design By Us</a>
+            </div>
+        </div>
+        <div class="container container-with-navbar-vertical-space">
             {% if messages %}
             <ul class="messages">
                 {% for message in messages %}

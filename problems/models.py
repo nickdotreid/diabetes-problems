@@ -1,6 +1,6 @@
 from django.db import models
 
-from easy_thumbnails.fields import ThumbnailerImageField
+from sorl.thumbnail import ImageField
 
 from django.db.models.signals import pre_save, post_save, pre_delete
 from django.contrib.auth.models import User
@@ -12,8 +12,9 @@ class Problem(models.Model):
         verbose_name_plural = 'Problems'
 
     title = models.CharField(blank=True, max_length=150)
-    image = ThumbnailerImageField(
+    image = ImageField(
         blank=True,
+        null=True,
         upload_to="problems",
         )
 

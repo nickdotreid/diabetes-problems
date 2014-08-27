@@ -1,24 +1,27 @@
 {% load thumbnail %}
-<div class="pane">
+<div class="pane" data-type="problems">
 	<form action="{% url 'problems-pick' %}" method="POST">
 		{% csrf_token %}
 		<fieldset>
 		<nav class="navbar navbar-default navbar-fixed-bottom form-actions">
 			<div class="container">
-				<legend><strong>Select the issues that are most important to you,</strong> from this list of issues other diabetics have contributed.</legend>
-				<input class="navbar-btn btn btn-default pull-right" type="submit" name="selected" value="Next" />
+				<div class="pull-right">
+					<input class="btn btn-primary btn-large pull-right" type="submit" name="selected" value="Next" />
+				</div>
+				<legend>From this list of contributed issues, <strong>select the issues that are most important to you.</strong> </legend>
+
 			</div>
 		</nav>
 		{% for problem in problems %}
-			<div class="problem {% if not forloop.counter|divisibleby:"2" %}problem-odd{% endif %} {% if forloop.counter|divisibleby:"3" %}problem-third{% endif %}">
+			<div class="problem problem-card {% if forloop.counter == 1 %}problem-first {% endif %}{% if not forloop.counter|divisibleby:"2" %}problem-odd {% endif %}{% if forloop.counter|divisibleby:"5" %}problem-fifth {% endif %}">
 				<input class="checkbox" id="problem-{{problem.id}}" type="checkbox" name="problem-{{problem.id}}" value="True" />
 				<label class="title problem-title" for="problem-{{problem.id}}">{{problem.title}}</label>
-				{% if problem.image %}
-					<label for="problem-{{problem.id}}"><img src="{{ problem.image.url}}" alt="" /></label>
-				{% endif %}
+				{% thumbnail problem.image "300x300" crop="center" as im %}
+					<label for="problem-{{problem.id}}"><img src="{{ im.url }}" alt="" /></label>
+				{% endthumbnail %}
 			</div>
 		{% endfor %}
 		</fieldset>
-		<input class="navbar-btn btn btn-default pull-right" type="submit" name="selected" value="Next" />
+		<input class="hidden" type="submit" name="selected" value="Next" />
 	</form>
 </div>
