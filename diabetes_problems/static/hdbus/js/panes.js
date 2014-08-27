@@ -44,21 +44,6 @@ var Pane = Backbone.View.extend({
 			}
 		});
 	},
-<<<<<<< HEAD
-	paneRemove: function(){
-		this.$el.addClass("");
-
-		var view = this;
-		//view.remove();
-		// setTimeout(function(){
-		// view.remove();
-		// }, 1500);
-	},
-	paneShow: function(){
-		this.$el.show();
-	}
-});
-=======
 	remove: function(callback){
 		var view = this;
 		this.hide(function(){
@@ -127,5 +112,3 @@ var ProblemPane = Pane.extend({
 	},
 });
 panes['problems'] = ProblemPane;
-
->>>>>>> 96dcd9cc554bf3080dfca706a0cc77a0e01e97ef
