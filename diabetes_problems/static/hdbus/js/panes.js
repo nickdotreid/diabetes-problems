@@ -5,7 +5,7 @@ var Pane = Backbone.View.extend({
 		'click .btn-ajax':'getLink',
 	},
 	initialize: function(){
-		this.paneShow();
+		this.render();
 		
 
 	},
