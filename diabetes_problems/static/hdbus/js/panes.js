@@ -10,7 +10,13 @@ var Pane = Backbone.View.extend({
 
 	},
 	render: function(){
+		var view = this;
 		// resize pane to display if needed
+		
+		this.$(".navbar-fixed-bottom").each(function(){
+			var paddingBottom = Number(view.$el.css("padding-bottom").replace("px",""));
+			view.$el.css("padding-bottom",paddingBottom+$(this).outerHeight()+"px");
+		});
 		
 		// if div not visable
 		if(!this.$el.is(':visible')) this.show();
