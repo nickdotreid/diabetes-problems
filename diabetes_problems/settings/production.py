@@ -97,6 +97,7 @@ MEDIA_URL = "https://{bucket_name}.s3.amazonaws.com/".format(
     bucket_name = AWS_STORAGE_BUCKET_NAME,
 )
 MEDIA_CACHE_BUSTER = 'plz'
+THUMBNAIL_DEBUG = True
 
 
 # Email settings.
