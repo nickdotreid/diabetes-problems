@@ -12,6 +12,10 @@ import os
 import dj_database_url
 from django.utils.crypto import get_random_string
 
+DEBUG = os.environ.get("DEBUG", False)
+TEMPLATE_DEBUG = DEBUG
+THUMBNAIL_DEBUG = DEBUG
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 
@@ -97,7 +101,6 @@ MEDIA_URL = "https://{bucket_name}.s3.amazonaws.com/".format(
     bucket_name = AWS_STORAGE_BUCKET_NAME,
 )
 MEDIA_CACHE_BUSTER = 'plz'
-THUMBNAIL_DEBUG = True
 
 
 # Email settings.
