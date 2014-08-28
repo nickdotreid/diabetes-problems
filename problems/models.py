@@ -10,6 +10,7 @@ class Problem(models.Model):
     class Meta:
         verbose_name = 'Problem'
         verbose_name_plural = 'Problems'
+        ordering = ['title']
 
     title = models.CharField(blank=True, max_length=150)
     image = ImageField(
