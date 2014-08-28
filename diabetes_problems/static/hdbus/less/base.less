@@ -14,6 +14,22 @@
 	text-indent: 100px;
 }
 
+// TYPOGRAPHY
+h1, h2, h3, h4, legend{
+	font-family: @heading-font-family;
+	font-weight:normal;
+	font-size:@largeFontSize;
+}
+
+h1{
+	font-size: @largestFontSize;
+}
+h1,h2{
+	font-weight: bold;
+}
+
+
+
 
 // ICONS
 .hdbus-logo{
@@ -124,9 +140,8 @@ legend{
 	}
 	.problem-title{
 		display:block;
-		font-size:1.5em;
-		padding:0px @spaceSize;
-		padding-left:@spaceSize*2;
+		font-size:@fontSize;
+		padding:0px @spaceSize/2;
 	}
 	img{
 		display:block;
