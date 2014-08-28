@@ -1,5 +1,6 @@
 {% load thumbnail %}
 <div class="pane" data-type="problems">
+	<h1>Select Issues That Are Important To You</h1>
 	<form action="{% url 'problems-pick' %}" method="POST">
 		{% csrf_token %}
 		<fieldset>
