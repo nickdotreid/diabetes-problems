@@ -3,6 +3,8 @@ var Pane = Backbone.View.extend({
 	events:{
 		'submit form':'getForm',
 		'click .btn-ajax':'getLink',
+		'mouseenter .problem':'problemOver',
+		'mouseleave .problem':'problemOut',
 	},
 	initialize: function(){
 		this.render();
@@ -100,6 +102,14 @@ var Pane = Backbone.View.extend({
 			}
 		});
 		return this;
+	},
+	problemOver: function(event){
+		var problem = $(event.currentTarget);
+		problem.addClass("problem-hover");
+	},
+	problemOut: function(event){
+		var problem = $(event.currentTarget);
+		problem.removeClass("problem-hover");
 	}
 });
 

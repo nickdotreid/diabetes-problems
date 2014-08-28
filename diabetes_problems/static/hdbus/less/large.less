@@ -11,15 +11,13 @@
 
 .problem-card{
 	@problem_width: (@largeSize - 75px)/4 - @spaceSize;
-	display:block;
-	position: relative;
 	float:left;
 	width: @problem_width;
-	padding-top: @problem_width - @spaceSize + @spaceSize/2;
+	padding-top: @problem_width - @spaceSize + @spaceSize;
 	img{
 		width:@problem_width - @spaceSize;
 		position:absolute;
-		top:0px;
+		top:@spaceSize/2;
 		left:@spaceSize/2;
 	}
 }

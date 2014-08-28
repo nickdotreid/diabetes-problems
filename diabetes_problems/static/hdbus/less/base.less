@@ -148,12 +148,29 @@ legend{
 		width:95%;
 		margin:0px auto;
 	}
+}
+
+.problem-card{
+	display:block;
+	position: relative;
+	padding:@spaceSize/2;
+	cursor:pointer;
+	a, label, input{
+		cursor:pointer;
+	}
+	img{
+		width:100%;
+		position:absolute;
+		top:@spaceSize/2;
+		left:@spaceSize/2;
+	}
+	&.problem-hover{
+		background-color: @blueLight;	
+	}
 	&.problem-selected{
+		background-color: @primaryColor;
 		.problem-title{
-			color:lighten(@primaryColor,20%);
-		}
-		img{
-			opacity:0.8;
+			color:#FFF;
 		}
 	}
 }
