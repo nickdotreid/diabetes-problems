@@ -4,7 +4,12 @@ var Page = Backbone.Model.extend({
 		$(document).ajaxComplete(function(event, request, settings){
 			var data = request.responseJSON;
 			if(data['messages']){
-				// show any messages that got collected
+				_.forEach(data['messages'],function(message){
+					new Message({
+						text:message.text,
+						messageType:message.type,
+					});
+				});
 			}
 			if(data['redirect']){
 				// set loading to true
@@ -39,5 +44,40 @@ var Page = Backbone.Model.extend({
 		this.set('currentPane', pane);
 		this.listenTo(pane, 'pane-added', this.setPane);
 		return this;
+	}
+});
+
+var Message = Backbone.View.extend({
+	events:{
+		'click .close-btn':'handleClose',
+	},
+	initialize: function(options){
+		this.text = options.text;
+		this.messageType = options.messageType;
+		this.render();
+	},
+	render: function(){
+		var view = this;
+		var messageDiv = $('<div class="alert alert-'+this.messageType+'">'+this.text+'<a href="#" class="close-btn close glyphicon glyphicon-remove"><span class="hidden">Close</span></a></div>').prependTo($('#alerts'));
+		this.setElement(messageDiv);
+
+		setTimeout(function(){
+			view.hide();
+		},5000);
+		return this;
+	},
+	handleClose: function(event){
+		event.preventDefault();
+		this.hide();
+	},
+	hide: function(){
+		var view = this;
+		this.$el.animate({
+			opacity:0
+		},{
+			always: function(){
+				view.remove();
+			}
+		})
 	}
 });

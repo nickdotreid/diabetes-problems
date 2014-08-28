@@ -112,6 +112,7 @@ def suggestion(request):
             return response(request, redirect=reverse('main-home'))
         if 'skip' in request.POST:
             return response(request, redirect=reverse('main-home'))
+        messages.add_message(request, messages.ERROR,'There is an error in your form.')
     return response(request, {
         'form':form,
         },

@@ -93,6 +93,23 @@ legend{
 	padding-left:75px;
 }
 
+// ALERTS
+.alerts{
+	position:fixed;
+	top:0px;
+	left:0px;
+	z-index:100;
+	width:100%;
+}
+.alert{
+	margin:@spaceSize 0px;
+	padding:@spaceSize;
+	color:#FFF;
+	font-weight: bold;
+	&.alert-error{
+		background-color: @red;
+	}
+}
 
 // PROBLEMS
 .problem{
