@@ -37,7 +37,7 @@ def pick(request):
             return response(request, redirect=reverse('problems-most'))
         messages.add_message(request, messages.ERROR, 'Either skip this message, or select a problem.')
     return response(request,{
-        'problems':Problem.objects.all(),
+        'problems':Problem.objects.order_by('?').all()[:8],
         },
         render='problems/problems-form.html')
 
