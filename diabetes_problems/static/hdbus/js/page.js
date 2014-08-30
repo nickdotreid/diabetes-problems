@@ -12,17 +12,22 @@ var Page = Backbone.Model.extend({
 				});
 			}
 			if(data['redirect']){
-				// set loading to true
-				$.ajax({
-					url:data['redirect']
-				});
+				model.loadPage(data['redirect']);
 			}
+		});
+	},
+	loadPage: function(url){
+		var model = this;
+		var jqhxr = $.ajax({
+			url:url,
+		}).done(function(data){
 			if(data['content']){
 				var pane = $(data['content']).insertAfter($(".pane:last"));
 				pane.hide();
 				model.setPane(pane[0],pane.data("type"));
 			}
 		});
+		return jqhxr;
 	},
 	setPane: function(div, type){
 		var oldPane = this.get("currentPane");

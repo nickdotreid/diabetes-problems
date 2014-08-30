@@ -32,12 +32,20 @@ var Pane = Backbone.View.extend({
 			type:form.attr("method"),
 			url:form.attr("action"),
 			data:form.serialize(),
-			error: function(jqXHR){
-
-			},
-			done: function(){
-				form.removeClass("loading");
-			},
+		}).always(function(data, textStatus){
+			form.removeClass("loading");
+			if(data.responseJSON) data = data.responseJSON;
+			if(data['content']){
+				if(form.data("target") == "pane"){
+					var pane = $(data['content']).insertAfter(view.$el);
+					view.$el.remove();
+					view.setElement(pane[0]);
+					view.render();
+				}else{
+					$(data['content']).insertAfter(form);
+					form.remove();
+				}
+			}
 		});
 	},
 	getLink: function(event){
@@ -45,11 +53,8 @@ var Pane = Backbone.View.extend({
 		var view = this;
 		var bttn = $(event.currentTarget)
 		bttn.addClass("loading")
-		$.ajax({
-			url:bttn.attr("href"),
-			done:function(){
-				bttn.removeClass("loading");
-			}
+		this.model.loadPage(bttn.attr("href")).always(function(){
+			bttn.removeClass("loading");
 		});
 	},
 	remove: function(callback){

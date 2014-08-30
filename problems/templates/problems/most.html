@@ -1,7 +1,7 @@
 {% load thumbnail %}
 <div class="pane" data-type="problems-most">
 	<h1>Pick your most important issue</h1>
-	<form action="{% url 'problems-most' %}" method="post">
+	<form action="{% url 'problems-most' %}" method="post" data-target="pane">
 		{% csrf_token %}
 		<fieldset>
 			<legend>Thanks for telling us which issues are the important to you. If you had to pick one issue, <strong>which of these issues is the most important to you?</strong></legend>
