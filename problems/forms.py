@@ -23,6 +23,10 @@ class SuggestionForm(forms.Form):
         self.helper.form_method = 'post'
         self.helper.form_action = reverse('suggestion-add')
 
+        self.helper.attrs = {
+            'data_target':'pane',
+        }
+
         self.helper.layout = Layout(
             'description',
             'email',
