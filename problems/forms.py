@@ -32,6 +32,9 @@ class SuggestionForm(forms.Form):
             'email',
             Div(
                 Submit("submit","Add Your Issue", css_class="btn-primary btn-large pull-right"),
-                Submit("skip","Not now", css_class="btn-secondary btn-large pull-right"),
+                HTML('<a href="%s" class="btn-secondary btn-large btn-ajax pull-right">%s</a>' % (
+                    reverse("main-home"),
+                    "No Thanks",
+                    )),
                 css_class="form-actions")
             )

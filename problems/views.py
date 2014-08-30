@@ -110,9 +110,7 @@ def suggestion(request):
                 session.email_add(form.cleaned_data['email'])
             messages.add_message(request, messages.SUCCESS,'Your suggestion has been saved. We will notify you when it is made public.')
             return response(request, redirect=reverse('main-home'))
-        if 'skip' in request.POST:
-            return response(request, redirect=reverse('main-home'))
-        messages.add_message(request, messages.ERROR,'There is an error in your form.')
+        messages.add_message(request, messages.ERROR,'Please add a suggestion.')
     return response(request, {
         'form':form,
         },
