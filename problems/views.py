@@ -17,6 +17,7 @@ def pick(request):
     except:
         return response(request, redirect=reverse('main-home'))
 
+    session_problems = session.problems() #Should do something to make this call not suck
     if request.POST:
         selected_problems = []
         # check for existing session
@@ -29,6 +30,8 @@ def pick(request):
                 continue
         if len(selected_problems) >= 1 or 'skip' in request.POST:
             for problem in selected_problems:
+                if problem.id in [p.id for p in session_problems]:
+                    continue
                 imp = Important(
                     problem=problem,
                     session=session,
@@ -37,7 +40,6 @@ def pick(request):
             return response(request, redirect=reverse('problems-most'))
         messages.add_message(request, messages.ERROR, 'Either skip this message, or select a problem.')
     problems = Problem.objects.order_by('?').all()[:8]
-    session_problems = session.problems()
     for problem in problems:
         problem.in_session(problem_list = session_problems)
     return response(request,{
