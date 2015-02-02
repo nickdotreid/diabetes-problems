@@ -133,3 +133,13 @@ var ProblemPane = Pane.extend({
 	},
 });
 panes['problems'] = ProblemPane;
+
+var ProblemMostPane = ProblemPane.extend({
+	toggleProblem:function(event){
+		this.$('.problem-selected').removeClass("problem-selected");
+		if(event.currentTarget.checked){
+			$(event.currentTarget).parent().addClass("problem-selected");
+		}
+	}
+});
+panes['problems-most'] = ProblemMostPane;

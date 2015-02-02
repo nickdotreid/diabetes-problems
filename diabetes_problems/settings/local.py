@@ -17,7 +17,7 @@ from production import BASE_DIR
 DEBUG = True
 
 TEMPLATE_DEBUG = DEBUG
-
+THUMBNAIL_DEBUG = DEBUG
 
 # Serve files locally for development.
 DEFAULT_FILE_STORAGE = "django.core.files.storage.FileSystemStorage"
