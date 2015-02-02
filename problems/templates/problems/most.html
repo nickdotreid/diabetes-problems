@@ -5,7 +5,7 @@
 		{% csrf_token %}
 		<fieldset>
 			<legend>Thanks for telling us which issues are the important to you. If you had to pick one issue, <strong>which of these issues is the most important to you?</strong></legend>
-			<p>You may <a href="{% url 'main-home' %}" class="ajax">skip this step.</a></p>
+			<p>You may <a href="{% url 'main-home' %}" class="btn-ajax">skip this step.</a></p>
 			<div class="problems problems-list">
 			{% for problem in problems  %}
 				<div class="problem problem-card {% if forloop.counter == 1 %}problem-first {% endif %}{% if not forloop.counter|divisibleby:"2" %}problem-odd {% endif %}{% if forloop.counter|divisibleby:"5" %}problem-fifth {% endif %}">
