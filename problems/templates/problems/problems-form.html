@@ -4,6 +4,17 @@
 	<form action="{% url 'problems-pick' %}" method="POST" data-target="pane">
 		{% csrf_token %}
 		<fieldset>
+			<legend>From the issues below, pick the ones that you want to talk about today.</legend>
+		{% for problem in problems %}
+			<div class="problem problem-card {% if problem.selected %}problem-selected{% endif %} {% if forloop.counter == 1 %}problem-first {% endif %}{% if not forloop.counter|divisibleby:"2" %}problem-odd {% endif %}{% if forloop.counter|add:"-1"|divisibleby:"4" %}problem-fifth {% endif %}">
+				<input class="checkbox" id="problem-{{problem.id}}" type="checkbox" name="problem-{{problem.id}}" value="True" {% if problem.selected %}checked="checked"{% endif %} />
+				<label class="title problem-title" for="problem-{{problem.id}}">{{problem.title}}</label>
+				{% thumbnail problem.image "300x300" crop="center" as im %}
+					<label for="problem-{{problem.id}}"><img src="{{ im.url }}" alt="" /></label>
+				{% endthumbnail %}
+			</div>
+		{% endfor %}
+		</fieldset>
 		<nav class="navbar navbar-default navbar-fixed-bottom form-actions">
 			<div class="container">
 				<div class="pull-right">
@@ -15,16 +26,6 @@
 
 			</div>
 		</nav>
-		{% for problem in problems %}
-			<div class="problem problem-card {% if problem.selected %}problem-selected{% endif %} {% if forloop.counter == 1 %}problem-first {% endif %}{% if not forloop.counter|divisibleby:"2" %}problem-odd {% endif %}{% if forloop.counter|add:"-1"|divisibleby:"4" %}problem-fifth {% endif %}">
-				<input class="checkbox" id="problem-{{problem.id}}" type="checkbox" name="problem-{{problem.id}}" value="True" {% if problem.selected %}checked="checked"{% endif %} />
-				<label class="title problem-title" for="problem-{{problem.id}}">{{problem.title}}</label>
-				{% thumbnail problem.image "300x300" crop="center" as im %}
-					<label for="problem-{{problem.id}}"><img src="{{ im.url }}" alt="" /></label>
-				{% endthumbnail %}
-			</div>
-		{% endfor %}
-		</fieldset>
 		<input class="hidden" type="submit" name="selected" value="Next" />
 	</form>
 </div>
