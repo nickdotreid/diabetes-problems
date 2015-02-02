@@ -4,7 +4,7 @@
 	<form action="{% url 'problems-pick' %}" method="POST" data-target="pane">
 		{% csrf_token %}
 		<fieldset>
-			<legend>From the issues below, pick the ones that you want to talk about today.</legend>
+			<legend>From this list of contributed issues, <strong>select the issues that are most important to you.</strong></legend>
 		{% for problem in problems %}
 			<div class="problem problem-card {% if problem.selected %}problem-selected{% endif %} {% if forloop.counter == 1 %}problem-first {% endif %}{% if not forloop.counter|divisibleby:"2" %}problem-odd {% endif %}{% if forloop.counter|add:"-1"|divisibleby:"4" %}problem-fifth {% endif %}">
 				<input class="checkbox" id="problem-{{problem.id}}" type="checkbox" name="problem-{{problem.id}}" value="True" {% if problem.selected %}checked="checked"{% endif %} />
@@ -20,10 +20,6 @@
 				<div class="pull-right">
 					<input class="btn btn-primary btn-large pull-right" type="submit" name="selected" value="Next" />
 				</div>
-				<div class="legend">
-					From this list of contributed issues, <strong>select the issues that are most important to you.</strong>
-				</div>
-
 			</div>
 		</nav>
 		<input class="hidden" type="submit" name="selected" value="Next" />
