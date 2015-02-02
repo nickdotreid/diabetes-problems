@@ -14,7 +14,7 @@
 					{% thumbnail problem.image "300x300" crop="center" as im %}
 						<label for="problem-{{problem.id}}"><img src="{{ im.url }}" alt="" /></label>
 					{% endthumbnail %}
-				</div>
+				</div class="legend">
 			{% endfor %}
 			</div>
 		</fieldset>
