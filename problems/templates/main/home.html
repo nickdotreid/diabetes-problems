@@ -1,0 +1,20 @@
+{% load thumbnail %}
+<div class="pane">
+	<h1>Your Selections</h1>
+	<p>Here are the selections that you have made</p>
+	<div class="problems problem-list">
+		{% for problem in problems %}
+		<div class="problem problem-card">
+			<span class="title problem-title" for="problem-{{problem.id}}">{{problem.title}}</span>
+			{% thumbnail problem.image "300x300" crop="center" as im %}
+				<img src="{{ im.url }}" alt="" />
+			{% endthumbnail %}
+		</div>
+		{% endfor %}
+	</div>
+	<nav class="form-actions actions">
+		<a class="btn btn-large btn-primary pull-left">Start over</a>
+		<a class="btn btn-large btn-secondary pull-right" >Add a new issue</a>
+		<a class="btn btn-large btn-secondary pull-right">Order issues</a>
+	</nav>
+</div>

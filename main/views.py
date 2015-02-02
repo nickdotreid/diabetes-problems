@@ -21,9 +21,9 @@ def response(request, data={}, template="base.html", render=False, error=False, 
     if request.is_ajax():
         if render:
             template = render
-    	if template and template != "base.html":
-    		content = render_to_string(template, data, context_instance=RequestContext(request))
-    		data = {'content':content}
+        if template and template != "base.html":
+            content = render_to_string(template, data, context_instance=RequestContext(request))
+            data = {'content':content}
         if redirect:
             data = {'redirect':redirect}
         data['messages'] = []
@@ -32,20 +32,20 @@ def response(request, data={}, template="base.html", render=False, error=False, 
                 'text':message.message,
                 'type':message.tags,
                 })
-    	return HttpResponse(
-    		json.dumps(data),
-    		content_type='application/json',
-    		)
+        return HttpResponse(
+            json.dumps(data),
+            content_type='application/json',
+            )
     if redirect:
         return HttpResponseRedirect(redirect)
     if render:
         content = render_to_string(render, data, context_instance=RequestContext(request))
         data = {'content': content}
     return render_to_response(
-    	template,
-    	data,
-    	context_instance=RequestContext(request)
-    	)	
+        template,
+        data,
+        context_instance=RequestContext(request)
+        )   
 
 def home(request):
     if 'session_key' not in request.session:
@@ -59,16 +59,11 @@ def home(request):
             }
             )
     session, created = Session.objects.get_or_create(key=request.session['session_key'])
-    
-    survey_form = SurveyForm(session=session)
-    email_form = EmailForm(session=session)
-
     return response(request,
-    	data = {
-        'form':survey_form,
-        'email_form':email_form,
+        data={
+            'problems':session.problems(),
         },
-        render='problems/thanks.html',
+        render='main/home.html',
         )
 
 def survey(request):
@@ -87,9 +82,9 @@ def survey(request):
                 survey.person_types.add(ty)
             return response(request, redirect=reverse('main-home'))
     return response(request,
-    	render='main/form.html',
-    	data = { 'form':form }
-    	)
+        render='main/form.html',
+        data = { 'form':form }
+        )
 
 def email(request):
     if 'session_key' not in request.session:
@@ -114,9 +109,9 @@ def email(request):
                 )
             return response(request, redirect=reverse('main-home'))
     return response(request,
-    	render='main/form.html',
-    	data = { 'form':form }
-    	)
+        render='main/form.html',
+        data = { 'form':form }
+        )
 
 def start(request, session_key=False):
     if session_key:
