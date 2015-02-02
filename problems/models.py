@@ -19,6 +19,22 @@ class Problem(models.Model):
         upload_to="problems",
         )
 
+    selected = False
+    def in_session(self, session=None, key=None, problem_list=[]):
+        if key:
+            session = Session.objects.get(key=key)
+        if session:
+            problem_list = session.problems()
+        if self.id in [p.id for p in problem_list]:
+            self.selected = True
+            return True
+        return False
+
+    def is_selected(self):
+        if self.selected:
+            return self.selected
+        return False
+
     def __unicode__(self):
         return self.title
 
