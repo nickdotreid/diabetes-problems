@@ -11,6 +11,7 @@ from django.contrib import messages
 
 from django.core.mail import send_mail
 
+
 def pick(request):
     try:
         session = Session.objects.get(key=request.session['session_key'])
