@@ -53,8 +53,12 @@
 
 @import "base.less";
 
-@largeScreenSize: (@largeSize + @spaceSize*2);
+@tabletScreenSize: (@tabletSize + @spaceSize*2);
+@media screen and (min-width: @tabletScreenSize){
+	@import "tablet.less";
+}
 
+@largeScreenSize: (@largeSize + @spaceSize*2);
 @media screen and (min-width: @largeScreenSize){
 	@import "large.less";
 }

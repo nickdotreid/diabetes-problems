@@ -1,11 +1,16 @@
+
+@verticalNavBarSpace: 75px;
 .container{
-	width:@largeSize;
+	width:@tabletSize;
 	margin-left:auto;
 	margin-right:auto;
 }
+.container-with-navbar-vertical-space{
+	padding-left:@verticalNavBarSpace;
+}
 
 .problem-card{
-	@problem_width: (@largeSize - 75px)/4 - @spaceSize;
+	@problem_width: (@tabletSize - 75px)/4 - @spaceSize;
 	float:left;
 	width: @problem_width;
 	padding-top: @problem_width - @spaceSize + @spaceSize;
@@ -15,4 +20,8 @@
 		top:@spaceSize/2;
 		left:@spaceSize/2;
 	}
+}
+
+.problem-fifth, .problem-first{
+	clear:left;
 }
