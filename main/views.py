@@ -45,13 +45,16 @@ def response(request, data={}, template="base.html", render=False, error=False, 
         template,
         data,
         context_instance=RequestContext(request)
-        )   
+        )
+
+from problems.views import pick
 
 def home(request):
     if 'session_key' not in request.session:
         session = Session()
         session.save()
         request.session['session_key'] = session.key
+        return pick(request)
         return response(request,
             render='main/welcome.html',
             data = {
