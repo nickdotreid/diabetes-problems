@@ -65,6 +65,7 @@ var Pane = Backbone.View.extend({
 		});
 	},
 	show: function(callback){
+		var pane = this;
 		this.$el.show().css({
 			'position':'absolute',
 			'top':this.$el.height(),
@@ -72,6 +73,12 @@ var Pane = Backbone.View.extend({
 		}).animate({
 			'top':this.$el.css("margin-top"),
 		},{
+			'complete':function(){
+				pane.$(".navbar-fixed-bottom").each(function(){
+					var paddingBottom = Number(pane.$el.css("padding-bottom").replace("px",""));
+					pane.$el.css("padding-bottom",paddingBottom+$(this).outerHeight()+"px");
+				});
+			},
 			'always':function(){
 				if(callback) callback();
 			}
