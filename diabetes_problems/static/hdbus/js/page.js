@@ -17,6 +17,9 @@ var Page = Backbone.Model.extend({
 		});
 	},
 	loadPage: function(url){
+		if(this.has('loading')) return false;
+		this.set('loading',true);
+
 		var model = this;
 		var jqhxr = $.ajax({
 			url:url,
@@ -26,6 +29,8 @@ var Page = Backbone.Model.extend({
 				pane.hide();
 				model.setPane(pane[0],pane.data("type"));
 			}
+		}).always(function(){
+			model.unset('loading');
 		});
 		return jqhxr;
 	},

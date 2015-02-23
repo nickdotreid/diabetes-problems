@@ -27,6 +27,9 @@ var Pane = Backbone.View.extend({
 		event.preventDefault();
 		var view = this;
 		var form = $(event.currentTarget);
+		if(this.model.has("loading")) return false;
+		this.model.set("loading", true);
+
 		form.addClass("loading");
 		$.ajax({
 			type:form.attr("method"),
@@ -46,12 +49,16 @@ var Pane = Backbone.View.extend({
 					form.remove();
 				}
 			}
+			view.model.unset("loading");
 		});
 	},
 	getLink: function(event){
 		event.preventDefault();
 		var view = this;
 		var bttn = $(event.currentTarget)
+
+		if(bttn.hasClass("loading")) return false;
+
 		bttn.addClass("loading")
 		this.model.loadPage(bttn.attr("href")).always(function(){
 			bttn.removeClass("loading");
@@ -72,6 +79,7 @@ var Pane = Backbone.View.extend({
 			'width':this.$el.parent().width(),
 		}).animate({
 			'top':this.$el.css("margin-top"),
+			'duration':0,
 		},{
 			'complete':function(){
 				pane.$(".navbar-fixed-bottom").each(function(){
@@ -79,6 +87,7 @@ var Pane = Backbone.View.extend({
 					pane.$el.css("padding-bottom",paddingBottom+$(this).outerHeight()+"px");
 				});
 			},
+			'duration':0,
 			'always':function(){
 				if(callback) callback();
 			}
@@ -89,15 +98,22 @@ var Pane = Backbone.View.extend({
 				'bottom':0-menu.height(),
 			}).animate({
 				'bottom':0,
-			});
+			},
+			{
+				'duration':0,
+			}
+			);
 		});
 		return this;
 	},
 	hide: function(callback){
+//		if(callback) callback();
 		this.$('.form-actions').each(function(){
 			var menu = $(this);
 			menu.animate({
 				'bottom':0-menu.height(),
+			},{
+				'duration':0,
 			});
 		});
 		this.$el.css({
@@ -109,9 +125,10 @@ var Pane = Backbone.View.extend({
 			'opacity':0,
 			'top':0-this.$el.height(),
 		},{
-			'always':function(){
+			always:function(){
 				if(callback) callback();
-			}
+			},
+			'duration':0,
 		});
 		return this;
 	},
