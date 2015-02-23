@@ -38,7 +38,7 @@ def pick(request):
                     session=session,
                     )
                 imp.save()
-            return response(request, redirect=reverse('problems-most'))
+            return response(request, redirect=reverse('main-home'))
         messages.add_message(request, messages.ERROR, 'Either skip this message, or select a problem.')
     problems = Problem.objects.order_by('?').all()
     for problem in problems:
