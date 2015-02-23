@@ -155,6 +155,27 @@ var ProblemPane = Pane.extend({
 			$(event.currentTarget).parent().removeClass("problem-selected");
 		}
 	},
+	render: function(){
+		var currentRow=[];
+		this.$('.problem').each(function(){
+			var problem = $(this);
+			if(!problem.hasClass('problem-row-start')){
+				currentRow.push(problem);
+				return;
+			}
+			if(currentRow.length > 0){
+				var tallestProblem = _.max(currentRow,function(problem){
+					return problem.height();
+				});
+				_.each(currentRow, function(problem){
+					problem.height(tallestProblem.height());
+				});
+			}
+			currentRow = [problem];
+			
+		});
+		Pane.prototype.render.call(this);
+	}
 });
 panes['problems'] = ProblemPane;
 
