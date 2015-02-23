@@ -8,11 +8,8 @@
 	@problem_width: (@largeSize - 75px*2)/3 - @spaceSize;
 	float:left;
 	width: @problem_width;
-	padding-top: @problem_width - @spaceSize + @spaceSize;
+	padding-top: @problem_width - @spaceSize;
 	img{
-		width:@problem_width - @spaceSize;
-		position:absolute;
-		top:@spaceSize/2;
-		left:@spaceSize/2;
+		width:@problem_width - @spaceSize*2;
 	}
 }

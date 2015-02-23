@@ -14,9 +14,10 @@
 	@problem_width: (@tabletSize - @verticalNavBarSpace*2)/3 - @spaceSize;
 	float:left;
 	width: @problem_width;
-	padding-top: @problem_width - @spaceSize + @spaceSize;
+	padding:0px;
+	padding-top: @problem_width - @spaceSize;
 	img{
-		width:@problem_width - @spaceSize;
+		width:@problem_width - @spaceSize*2;
 		position:absolute;
 		top:@spaceSize/2;
 		left:@spaceSize/2;
