@@ -156,25 +156,28 @@ var ProblemPane = Pane.extend({
 		}
 	},
 	render: function(){
+		Pane.prototype.render.call(this); // ideally this would go after
+
 		var currentRow=[];
-		this.$('.problem').each(function(){
+		var pane = this;
+		pane.$('.problem').each(function(){
 			var problem = $(this);
-			if(!problem.hasClass('problem-row-start')){
-				currentRow.push(problem);
-				return;
-			}
-			if(currentRow.length > 0){
+			if((problem.hasClass('problem-row-start') || pane.$('.problem:last')[0] == this) 
+				&& currentRow.length > 0){			
+				if(pane.$('.problem:last')[0] == this) currentRow.push(problem);
 				var tallestProblem = _.max(currentRow,function(problem){
 					return problem.height();
 				});
 				_.each(currentRow, function(problem){
 					problem.height(tallestProblem.height());
 				});
+				currentRow = [];
 			}
-			currentRow = [problem];
+
+			currentRow.push(problem);
 			
 		});
-		Pane.prototype.render.call(this);
+		
 	}
 });
 panes['problems'] = ProblemPane;
