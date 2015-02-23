@@ -12,10 +12,8 @@
 		</div>
 		{% endfor %}
 	</div>
-	<nav class="form-actions actions navbar navbar-fixed-bottom">
-		<div class="container">
-			<a href="{% url 'problems-pick' %}" class="btn btn-ajax btn-large btn-primary pull-right">Edit your selections</a>
-			<a href="{% url 'suggestion-add' %}" class="btn btn-ajax btn-large btn-secondary pull-right" >Add a new issue</a>
-		</div>
+	<nav class="form-actions actions navbar">
+		<a href="{% url 'problems-pick' %}" class="btn btn-ajax btn-large btn-primary pull-right">Edit your selections</a>
+		<a href="{% url 'suggestion-add' %}" class="btn btn-ajax btn-large btn-secondary pull-right" >Add a new issue</a>
 	</nav>
 </div>
